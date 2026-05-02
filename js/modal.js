@@ -20,7 +20,7 @@ function wireInlinePlay(id, text, lang) {
 
 export function openModal(item) {
   document.getElementById("m-char").textContent = item.c;
-  const nameThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : item.c;
+  const nameThai = item.rep ? item.rep.replace(/\s*[（(][^）)]*[）)]/, "").trim() : item.c;
   document.getElementById("m-name").textContent = nameThai;
   document.getElementById("m-roma").textContent = item.roma;
 
@@ -50,7 +50,7 @@ export function openModal(item) {
   document.getElementById("m-font-noto").textContent = item.c;
 
   // Play buttons
-  const repThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : "";
+  const repThai = item.rep ? item.rep.replace(/\s*[（(][^）)]*[）)]/, "").trim() : "";
   wireInlinePlay("m-play-name", nameThai, "th-TH");
   wireInlinePlay("m-play-rep", repThai, "th-TH");
 
