@@ -81,7 +81,8 @@
   font-weight: 500;
   line-height: 1.5;
   color: var(--text);
-  margin-bottom: 8px;
+  margin-top: -16px;
+  margin-bottom: 32px;
 }
 
 .modal-tone-tag {
