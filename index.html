@@ -126,15 +126,16 @@
     <div class="modal-body">
       <div class="info-row">
         <div class="info-label">字母名稱</div>
-        <div class="info-value" id="m-name">—</div>
+        <div class="info-value info-value--row">
+          <span id="m-name">—</span>
+          <button class="inline-play-btn" id="m-play-name" aria-label="播放名稱">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l11 6-11 6V2z"/></svg>
+          </button>
+        </div>
       </div>
       <div class="info-row">
         <div class="info-label">羅馬拼音</div>
         <div class="info-value"><span class="roma" id="m-roma">—</span></div>
-      </div>
-      <div class="info-row">
-        <div class="info-label">中文音</div>
-        <div class="info-value" id="m-zh">—</div>
       </div>
       <div class="info-row" id="m-rep-row">
         <div class="info-label">代表詞</div>
@@ -144,6 +145,24 @@
             <div class="rep-text-wrap">
               <span class="rep-thai" id="m-rep-thai">—</span>
               <span class="rep-zh" id="m-rep-zh">—</span>
+            </div>
+            <button class="inline-play-btn" id="m-play-rep" aria-label="播放代表詞">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l11 6-11 6V2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">字形</div>
+        <div class="info-value">
+          <div class="font-compare">
+            <div class="font-sample">
+              <span class="font-char font-char--noto" id="m-font-noto">—</span>
+              <span class="font-label">Noto Sans Thai</span>
+            </div>
+            <div class="font-sample">
+              <span class="font-char font-char--sarabun" id="m-font-sarabun">—</span>
+              <span class="font-label">Sarabun</span>
             </div>
           </div>
         </div>

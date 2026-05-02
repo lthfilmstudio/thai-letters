@@ -183,6 +183,62 @@
 
 .play-icon { width: 16px; height: 16px; display: inline-block; }
 
+/* ─── Inline play buttons (next to name / rep) ─── */
+.info-value--row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inline-play-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-mute);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+.inline-play-btn svg { width: 10px; height: 10px; }
+.inline-play-btn:hover { border-color: var(--gold); color: var(--gold); }
+.inline-play-btn.playing { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+
+/* ─── Font comparison row ─── */
+.font-compare {
+  display: flex;
+  gap: 32px;
+}
+
+.font-sample {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.font-char {
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+}
+.font-char--noto    { font-family: "Noto Sans Thai", serif; }
+.font-char--sarabun { font-family: "Sarabun", sans-serif; }
+
+.font-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
 @media screen and (max-width: 760px) {
   .modal-char { font-size: 88px; }
   .info-row { grid-template-columns: 80px 1fr; gap: 12px; }

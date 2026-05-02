@@ -4,11 +4,24 @@ function toneLabel(t) {
   return ({ mid: "中音", high: "高音", low: "低音", none: "—" })[t] || "—";
 }
 
+function wireInlinePlay(id, text, lang) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.onclick = () => {
+    btn.classList.add("playing");
+    const utter = speak(text, lang);
+    if (utter) {
+      utter.onend = () => btn.classList.remove("playing");
+    } else {
+      setTimeout(() => btn.classList.remove("playing"), 600);
+    }
+  };
+}
+
 export function openModal(item) {
   document.getElementById("m-char").textContent = item.c;
   document.getElementById("m-name").textContent = item.name;
   document.getElementById("m-roma").textContent = item.roma;
-  document.getElementById("m-zh").textContent = item.zh;
 
   const toneTag = document.getElementById("m-tone");
   toneTag.dataset.tone = item.tone;
@@ -32,6 +45,15 @@ export function openModal(item) {
   } else {
     classRow.style.display = "none";
   }
+
+  // Font comparison
+  document.getElementById("m-font-noto").textContent = item.c;
+  document.getElementById("m-font-sarabun").textContent = item.c;
+
+  // Play buttons
+  const repThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : "";
+  wireInlinePlay("m-play-name", item.name, "en-US");
+  wireInlinePlay("m-play-rep", repThai, "th-TH");
 
   const playBtn = document.getElementById("m-play");
   playBtn.onclick = () => {
