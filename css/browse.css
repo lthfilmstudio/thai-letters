@@ -1,0 +1,102 @@
+/* ─── Tone Filter ─── */
+.tone-filter {
+  display: none;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tone-filter.visible { display: flex; }
+
+.tone-pill {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.tone-pill:hover { border-color: var(--gold-dim); color: var(--text); }
+.tone-pill.active {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ─── Grid ─── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.letter-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 16px 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.45,.05,.35,1);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.letter-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--tone-mid);
+  opacity: 0.6;
+  transition: opacity 0.25s ease;
+}
+.letter-card[data-tone="high"]::before { background: var(--tone-high); }
+.letter-card[data-tone="low"]::before  { background: var(--tone-low); }
+.letter-card[data-tone="none"]::before { background: var(--gold-dim); opacity: 0.3; }
+
+.letter-card:hover {
+  background: var(--card-flipped);
+  transform: translateY(-2px);
+  border-color: var(--gold-dim);
+}
+.letter-card:hover::before { opacity: 1; }
+
+.letter-char {
+  font-family: "Noto Sans Thai", serif;
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.letter-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.letter-romanization {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.letter-rep {
+  font-family: "Sarabun", sans-serif;
+  font-size: 11px;
+  color: var(--text-mute);
+}

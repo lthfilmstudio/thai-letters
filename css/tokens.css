@@ -1,0 +1,17 @@
+:root {
+  --bg: #0F1814;
+  --panel: #1A2B24;
+  --card: #243830;
+  --card-flipped: #2D4A3E;
+  --gold: #C4A574;
+  --gold-soft: #C4A57433;
+  --gold-dim: #8a7553;
+  --text: #F5F0E8;
+  --text-dim: #F5F0E899;
+  --text-mute: #F5F0E866;
+  --danger: #E8948F;
+  --tone-mid: #C4A574;
+  --tone-high: #E8B86F;
+  --tone-low: #7FA68A;
+  --border: #F5F0E81A;
+}

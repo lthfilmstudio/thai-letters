@@ -1,0 +1,135 @@
+.write-wrap {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.write-sidebar {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.write-sidebar::-webkit-scrollbar { width: 6px; }
+.write-sidebar::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+.write-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+.write-letter-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.write-letter-item {
+  aspect-ratio: 1;
+  background: var(--card);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Noto Sans Thai", serif;
+  font-size: 24px;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+.write-letter-item:hover { background: var(--card-flipped); }
+.write-letter-item.active {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+
+.write-canvas-wrap {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  position: relative;
+}
+
+.write-display {
+  font-family: "Noto Sans Thai", serif;
+  font-size: 200px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+  margin: 24px 0;
+  letter-spacing: 0.02em;
+  position: relative;
+  display: inline-block;
+}
+
+.write-guide-wrap {
+  display: inline-block;
+  position: relative;
+  padding: 12px 24px;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px),
+    repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px);
+  border-radius: 4px;
+}
+
+.write-info {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0 24px;
+  flex-wrap: wrap;
+}
+
+.write-info-cell {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+.write-info-cell .v { color: var(--gold); margin-left: 6px; }
+
+.write-tip {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text-mute);
+  margin-top: 16px;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.write-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.write-action-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: "Sarabun", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.write-action-btn:hover {
+  background: var(--card-flipped);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+@media screen and (max-width: 760px) {
+  .write-wrap { grid-template-columns: 1fr; }
+}

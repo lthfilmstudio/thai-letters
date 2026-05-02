@@ -1,0 +1,189 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 24, 20, 0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+}
+.modal-backdrop.open { display: flex; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal-backdrop.open { animation: fadeIn 0.3s ease; }
+  .modal-backdrop.open .modal { animation: modalIn 0.4s cubic-bezier(.45,.05,.35,1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from { transform: translateY(20px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  max-width: 560px;
+  width: 100%;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-hero {
+  background: var(--card);
+  padding: 48px 32px 32px;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--gold);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+.modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+.modal-char {
+  font-family: "Noto Sans Thai", serif;
+  font-size: 120px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.modal-tone-tag {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+.modal-tone-tag[data-tone="mid"]  { color: var(--tone-mid);  border-color: var(--tone-mid); }
+.modal-tone-tag[data-tone="high"] { color: var(--tone-high); border-color: var(--tone-high); }
+.modal-tone-tag[data-tone="low"]  { color: var(--tone-low);  border-color: var(--tone-low); }
+.modal-tone-tag[data-tone="none"] { color: var(--text-mute); border-color: var(--border); }
+
+.modal-body { padding: 32px; }
+
+.info-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.info-row:last-child { border-bottom: none; }
+
+.info-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.info-value {
+  font-family: "Sarabun", sans-serif;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.info-value .roma {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--gold);
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.rep-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rep-icon { font-size: 32px; line-height: 1; }
+
+.rep-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rep-thai {
+  font-family: "Noto Sans Thai", sans-serif;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.rep-zh { font-size: 14px; color: var(--text-dim); }
+
+.play-btn {
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  font-family: "Sarabun", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+.play-btn:hover { background: var(--text); }
+.play-btn:active { transform: scale(0.98); }
+.play-btn.playing {
+  background: var(--card-flipped);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.play-icon { width: 16px; height: 16px; display: inline-block; }
+
+@media screen and (max-width: 760px) {
+  .modal-char { font-size: 88px; }
+  .info-row { grid-template-columns: 80px 1fr; gap: 12px; }
+}

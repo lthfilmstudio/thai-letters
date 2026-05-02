@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>泰文字母互動學習</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0F1814;
+    --panel: #1A2B24;
+    --card: #243830;
+    --card-flipped: #2D4A3E;
+    --gold: #C4A574;
+    --gold-soft: #C4A57433;
+    --gold-dim: #8a7553;
+    --text: #F5F0E8;
+    --text-dim: #F5F0E899;
+    --text-mute: #F5F0E866;
+    --danger: #E8948F;
+    --tone-mid: #C4A574;
+    --tone-high: #E8B86F;
+    --tone-low: #7FA68A;
+    --border: #F5F0E81A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Sarabun", "Noto Sans Thai", -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at top left, #1A2B2440 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, #2D4A3E30 0%, transparent 50%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+
+  /* Subtle grain texture */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+    position: relative;
+  }
+
+  /* ─── Header ─── */
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-block .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .title-block h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .title-block h1 .thai {
+    font-family: "Noto Sans Thai", serif;
+    font-weight: 600;
+    color: var(--gold);
+    margin-right: 16px;
+  }
+
+  .title-block .subtitle {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text-dim);
+    margin-top: 12px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 32px;
+    text-align: right;
+  }
+
+  .stat {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-top: 4px;
+  }
+
+  /* ─── Mode Switcher ─── */
+  .modes {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    background: var(--panel);
+    padding: 6px;
+    border-radius: 999px;
+    width: fit-content;
+    border: 1px solid var(--border);
+  }
+
+  .mode-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: "Sarabun", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(.45,.05,.35,1);
+    letter-spacing: 0.02em;
+  }
+
+  .mode-btn:hover { color: var(--text); }
+
+  .mode-btn.active {
+    background: var(--gold);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  /* ─── Category Tabs ─── */
+  .cat-tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .cat-tab {
+    background: none;
+    border: none;
+    color: var(--text-mute);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 0;
+    position: relative;
+    transition: color 0.3s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .cat-tab:hover { color: var(--text-dim); }
+
+  .cat-tab.active {
+    color: var(--gold);
+  }
+
+  .cat-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: -17px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .cat-tab .count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-left: 6px;
+    vertical-align: super;
+  }
+
+  /* ─── Browse: Tone Filter for consonants ─── */
+  .tone-filter {
+    display: none;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .tone-filter.visible { display: flex; }
+
+  .tone-pill {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .tone-pill:hover { border-color: var(--gold-dim); color: var(--text); }
+  .tone-pill.active {
+    background: var(--gold-soft);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ─── Browse Grid ─── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .letter-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px 16px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(.45,.05,.35,1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .letter-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--tone-mid);
+    opacity: 0.6;
+    transition: opacity 0.25s ease;
+  }
+  .letter-card[data-tone="high"]::before { background: var(--tone-high); }
+  .letter-card[data-tone="low"]::before { background: var(--tone-low); }
+  .letter-card[data-tone="none"]::before { background: var(--gold-dim); opacity: 0.3; }
+
+  .letter-card:hover {
+    background: var(--card-flipped);
+    transform: translateY(-2px);
+    border-color: var(--gold-dim);
+  }
+  .letter-card:hover::before { opacity: 1; }
+
+  .letter-char {
+    font-family: "Noto Sans Thai", serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  .letter-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .letter-romanization {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .letter-rep {
+    font-family: "Sarabun", sans-serif;
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+
+  /* ─── Detail Modal ─── */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 24, 20, 0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal-backdrop.open { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 560px;
+    width: 100%;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    animation: modalIn 0.4s cubic-bezier(.45,.05,.35,1);
+  }
+
+  @keyframes modalIn {
+    from { transform: translateY(20px) scale(0.96); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .modal-hero {
+    background: var(--card);
+    padding: 48px 32px 32px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+  }
+  .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
+  .modal-char {
+    font-family: "Noto Sans Thai", serif;
+    font-size: 120px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .modal-tone-tag {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .modal-tone-tag[data-tone="mid"]  { color: var(--tone-mid); border-color: var(--tone-mid); }
+  .modal-tone-tag[data-tone="high"] { color: var(--tone-high); border-color: var(--tone-high); }
+  .modal-tone-tag[data-tone="low"]  { color: var(--tone-low); border-color: var(--tone-low); }
+  .modal-tone-tag[data-tone="none"] { color: var(--text-mute); border-color: var(--border); }
+
+  .modal-body {
+    padding: 32px;
+  }
+
+  .info-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .info-row:last-child { border-bottom: none; }
+
+  .info-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+  }
+
+  .info-value {
+    font-family: "Sarabun", sans-serif;
+    font-size: 16px;
+    color: var(--text);
+  }
+
+  .info-value .roma {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--gold);
+    font-size: 18px;
+    margin-right: 12px;
+  }
+
+  .rep-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .rep-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .rep-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .rep-thai {
+    font-family: "Noto Sans Thai", sans-serif;
+    font-size: 18px;
+    color: var(--text);
+  }
+
+  .rep-zh {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .play-btn {
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    width: 100%;
+    padding: 14px;
+    border-radius: 6px;
+    font-family: "Sarabun", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.25s ease;
+  }
+  .play-btn:hover { background: var(--text); }
+  .play-btn:active { transform: scale(0.98); }
+  .play-btn.playing {
+    background: var(--card-flipped);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+
+  .play-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+  }
+
+  /* ─── Quiz Mode ─── */
+  .quiz-wrap {
+    max-width: 560px;
+    margin: 40px auto 0;
+  }
+
+  .quiz-direction {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    background: var(--panel);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .quiz-dir-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 12px;
+    border-radius: 6px;
+    font-family: "Sarabun", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .quiz-dir-btn:hover { color: var(--text); }
+  .quiz-dir-btn.active {
+    background: var(--card);
+    color: var(--gold);
+  }
+
+  .quiz-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-mute);
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin: 0 16px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width 0.4s cubic-bezier(.45,.05,.35,1);
+  }
+
+  .quiz-question {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 56px 32px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .quiz-prompt-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 20px;
+  }
+
+  .quiz-prompt {
+    font-family: "Noto Sans Thai", serif;
+    font-size: 96px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .quiz-prompt.small {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 40px;
+    color: var(--gold);
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .quiz-option {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 16px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(.45,.05,.35,1);
+    font-family: "Sarabun", sans-serif;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .quiz-option:hover:not(:disabled) {
+    background: var(--card-flipped);
+    border-color: var(--gold-dim);
+    transform: translateY(-1px);
+  }
+
+  .quiz-option .opt-thai {
+    font-family: "Noto Sans Thai", sans-serif;
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .quiz-option .opt-roma {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 18px;
+    color: var(--gold);
+  }
+
+  .quiz-option.correct {
+    background: #2D4A3E;
+    border-color: #7FA68A;
+    color: #B8E6C8;
+  }
+
+  .quiz-option.wrong {
+    background: #3E2A2A;
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-result {
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    display: none;
+  }
+  .quiz-result.show { display: block; }
+
+  .quiz-result-feedback {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .quiz-result-feedback.correct { color: #B8E6C8; }
+  .quiz-result-feedback.wrong { color: var(--danger); }
+
+  .quiz-result-detail {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .quiz-next {
+    margin-top: 16px;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-family: "Sarabun", sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .quiz-next:hover { background: var(--text); }
+
+  .quiz-score {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--panel);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .score-cell {
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .score-cell .num {
+    font-size: 24px;
+    color: var(--gold);
+  }
+  .score-cell.correct .num { color: #B8E6C8; }
+  .score-cell.wrong .num { color: var(--danger); }
+  .score-cell .label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-top: 4px;
+  }
+
+  /* ─── Writing Mode ─── */
+  .write-wrap {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 760px) {
+    .write-wrap { grid-template-columns: 1fr; }
+    .modal-char { font-size: 88px; }
+    .quiz-prompt { font-size: 72px; }
+    .info-row { grid-template-columns: 80px 1fr; gap: 12px; }
+    header { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .stats { width: 100%; justify-content: space-between; text-align: left; }
+    .stat { text-align: left; }
+  }
+
+  .write-sidebar {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .write-sidebar::-webkit-scrollbar { width: 6px; }
+  .write-sidebar::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+  .write-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  .write-letter-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .write-letter-item {
+    aspect-ratio: 1;
+    background: var(--card);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Sans Thai", serif;
+    font-size: 24px;
+    color: var(--text);
+    transition: all 0.2s ease;
+  }
+  .write-letter-item:hover { background: var(--card-flipped); }
+  .write-letter-item.active {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+  }
+
+  .write-canvas-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .write-display {
+    font-family: "Noto Sans Thai", serif;
+    font-size: 200px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin: 24px 0;
+    letter-spacing: 0.02em;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(180deg, var(--text) 0%, var(--text) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .write-guide-wrap {
+    display: inline-block;
+    position: relative;
+    padding: 12px 24px;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px),
+      repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px);
+    border-radius: 4px;
+  }
+
+  .write-info {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 16px 0 24px;
+    flex-wrap: wrap;
+  }
+
+  .write-info-cell {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  .write-info-cell .v { color: var(--gold); margin-left: 6px; }
+
+  .write-tip {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-mute);
+    margin-top: 16px;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .write-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .write-action-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: "Sarabun", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .write-action-btn:hover {
+    background: var(--card-flipped);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Hidden by default */
+  .view { display: none; }
+  .view.active { display: block; }
+  .view.active.flex { display: flex; }
+
+  /* Empty state */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-mute);
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="title-block">
+      <div class="eyebrow">Thai Alphabet · Interactive Reference</div>
+      <h1><span class="thai">อักษรไทย</span><span style="font-style:italic;">Aksorn Thai</span></h1>
+      <div class="subtitle">子音・母音・聲調 — 互動學習</div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label">total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-current">—</div>
+        <div class="stat-label">showing</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mode Switcher -->
+  <div class="modes" role="tablist">
+    <button class="mode-btn active" data-mode="browse">瀏覽</button>
+    <button class="mode-btn" data-mode="quiz">測驗</button>
+    <button class="mode-btn" data-mode="write">書寫</button>
+  </div>
+
+  <!-- ============ BROWSE VIEW ============ -->
+  <div class="view active" id="view-browse">
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <div class="tone-filter" id="tone-filter">
+      <button class="tone-pill active" data-tone="all">全部</button>
+      <button class="tone-pill" data-tone="mid">中音 Mid</button>
+      <button class="tone-pill" data-tone="high">高音 High</button>
+      <button class="tone-pill" data-tone="low">低音 Low</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- ============ QUIZ VIEW ============ -->
+  <div class="view" id="view-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-direction">
+        <button class="quiz-dir-btn active" data-dir="char-to-roma">看字母選讀音</button>
+        <button class="quiz-dir-btn" data-dir="roma-to-char">看讀音選字母</button>
+      </div>
+      <div class="quiz-score">
+        <div class="score-cell"><div class="num" id="qs-total">0</div><div class="label">total</div></div>
+        <div class="score-cell correct"><div class="num" id="qs-correct">0</div><div class="label">correct</div></div>
+        <div class="score-cell wrong"><div class="num" id="qs-wrong">0</div><div class="label">wrong</div></div>
+      </div>
+      <div class="quiz-progress">
+        <span id="qp-num">Q1</span>
+        <div class="progress-bar"><div class="progress-fill" id="qp-fill"></div></div>
+        <span id="qp-pct">0%</span>
+      </div>
+      <div class="quiz-question">
+        <div class="quiz-prompt-label" id="quiz-label">字母</div>
+        <div class="quiz-prompt" id="quiz-prompt">—</div>
+      </div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="quiz-result" id="quiz-result">
+        <div class="quiz-result-feedback" id="qr-feedback"></div>
+        <div class="quiz-result-detail" id="qr-detail"></div>
+        <button class="quiz-next" id="qr-next">下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WRITING VIEW ============ -->
+  <div class="view" id="view-write">
+    <div class="cat-tabs" id="write-cat-tabs"></div>
+    <div class="write-wrap">
+      <aside class="write-sidebar">
+        <div class="write-letter-list" id="write-list"></div>
+      </aside>
+      <main class="write-canvas-wrap">
+        <div class="quiz-prompt-label" id="write-cat-label">CONSONANT</div>
+        <div class="write-guide-wrap">
+          <div class="write-display" id="write-display">ก</div>
+        </div>
+        <div class="write-info">
+          <div class="write-info-cell">字母名稱<span class="v" id="wi-name">—</span></div>
+          <div class="write-info-cell">羅馬拼音<span class="v" id="wi-roma">—</span></div>
+          <div class="write-info-cell">中文音<span class="v" id="wi-zh">—</span></div>
+        </div>
+        <div class="write-actions">
+          <button class="write-action-btn" id="write-play">▶ 聽發音</button>
+          <button class="write-action-btn" id="write-prev">← 上一個</button>
+          <button class="write-action-btn" id="write-next">下一個 →</button>
+        </div>
+        <div class="write-tip" id="write-tip">提示：依照泰文書寫慣例，先從圓圈開始，再畫主體。</div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <div class="modal-hero">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="modal-char" id="m-char">—</div>
+      <span class="modal-tone-tag" id="m-tone" data-tone="mid">—</span>
+    </div>
+    <div class="modal-body">
+      <div class="info-row">
+        <div class="info-label">字母名稱</div>
+        <div class="info-value" id="m-name">—</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">羅馬拼音</div>
+        <div class="info-value"><span class="roma" id="m-roma">—</span></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">中文音</div>
+        <div class="info-value" id="m-zh">—</div>
+      </div>
+      <div class="info-row" id="m-rep-row">
+        <div class="info-label">代表詞</div>
+        <div class="info-value">
+          <div class="rep-block">
+            <span class="rep-icon" id="m-rep-icon">—</span>
+            <div class="rep-text-wrap">
+              <span class="rep-thai" id="m-rep-thai">—</span>
+              <span class="rep-zh" id="m-rep-zh">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" id="m-class-row">
+        <div class="info-label">聲調類別</div>
+        <div class="info-value" id="m-class">—</div>
+      </div>
+      <button class="play-btn" id="m-play">
+        <svg class="play-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l11 6-11 6V2z"/></svg>
+        <span>播放發音</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — Thai consonants, vowels, tone marks
+   tone class: mid | high | low | none (vowels & tone marks)
+   ============================================================ */
+
+const CONSONANTS = [
+  { c: "ก", name: "ko kai",          roma: "k",   zh: "格",   tone: "mid",  rep: "ก ไก่ (雞)",     repIcon: "🐔" },
+  { c: "ข", name: "kho khai",        roma: "kh",  zh: "克",   tone: "high", rep: "ข ไข่ (蛋)",     repIcon: "🥚" },
+  { c: "ฃ", name: "kho khuat",       roma: "kh",  zh: "克",   tone: "high", rep: "ฃ ขวด (瓶)",     repIcon: "🍶" },
+  { c: "ค", name: "kho khwai",       roma: "kh",  zh: "克",   tone: "low",  rep: "ค ควาย (水牛)",  repIcon: "🐃" },
+  { c: "ฅ", name: "kho khon",        roma: "kh",  zh: "克",   tone: "low",  rep: "ฅ คน (人)",      repIcon: "🧍" },
+  { c: "ฆ", name: "kho rakhang",     roma: "kh",  zh: "克",   tone: "low",  rep: "ฆ ระฆัง (鐘)",   repIcon: "🔔" },
+  { c: "ง", name: "ngo ngu",         roma: "ng",  zh: "嗯",   tone: "low",  rep: "ง งู (蛇)",      repIcon: "🐍" },
+  { c: "จ", name: "cho chan",        roma: "ch",  zh: "績",   tone: "mid",  rep: "จ จาน (盤)",     repIcon: "🍽" },
+  { c: "ฉ", name: "cho ching",       roma: "ch",  zh: "刺",   tone: "high", rep: "ฉ ฉิ่ง (鈸)",    repIcon: "🥁" },
+  { c: "ช", name: "cho chang",       roma: "ch",  zh: "次",   tone: "low",  rep: "ช ช้าง (象)",    repIcon: "🐘" },
+  { c: "ซ", name: "so so",           roma: "s",   zh: "斯",   tone: "low",  rep: "ซ โซ่ (鏈)",     repIcon: "⛓" },
+  { c: "ฌ", name: "cho choe",        roma: "ch",  zh: "次",   tone: "low",  rep: "ฌ เฌอ (樹)",     repIcon: "🌳" },
+  { c: "ญ", name: "yo ying",         roma: "y",   zh: "亦",   tone: "low",  rep: "ญ หญิง (女)",    repIcon: "👩" },
+  { c: "ฎ", name: "do chada",        roma: "d",   zh: "得",   tone: "mid",  rep: "ฎ ชฎา (頭飾)",   repIcon: "👑" },
+  { c: "ฏ", name: "to patak",        roma: "t",   zh: "得",   tone: "mid",  rep: "ฏ ปฏัก (刺棒)",  repIcon: "🪄" },
+  { c: "ฐ", name: "tho than",        roma: "th",  zh: "特",   tone: "high", rep: "ฐ ฐาน (台座)",   repIcon: "🏛" },
+  { c: "ฑ", name: "tho montho",      roma: "th",  zh: "特",   tone: "low",  rep: "ฑ มณโฑ (人名)",  repIcon: "👸" },
+  { c: "ฒ", name: "tho phuthao",     roma: "th",  zh: "特",   tone: "low",  rep: "ฒ ผู้เฒ่า (老人)", repIcon: "👴" },
+  { c: "ณ", name: "no nen",          roma: "n",   zh: "呢",   tone: "low",  rep: "ณ เณร (沙彌)",   repIcon: "🧘" },
+  { c: "ด", name: "do dek",          roma: "d",   zh: "得",   tone: "mid",  rep: "ด เด็ก (小孩)",  repIcon: "🧒" },
+  { c: "ต", name: "to tao",          roma: "t",   zh: "得",   tone: "mid",  rep: "ต เต่า (龜)",    repIcon: "🐢" },
+  { c: "ถ", name: "tho thung",       roma: "th",  zh: "特",   tone: "high", rep: "ถ ถุง (袋)",     repIcon: "🛍" },
+  { c: "ท", name: "tho thahan",      roma: "th",  zh: "特",   tone: "low",  rep: "ท ทหาร (士兵)",  repIcon: "🪖" },
+  { c: "ธ", name: "tho thong",       roma: "th",  zh: "特",   tone: "low",  rep: "ธ ธง (旗)",      repIcon: "🚩" },
+  { c: "น", name: "no nu",           roma: "n",   zh: "呢",   tone: "low",  rep: "น หนู (鼠)",     repIcon: "🐭" },
+  { c: "บ", name: "bo baimai",       roma: "b",   zh: "波",   tone: "mid",  rep: "บ ใบไม้ (葉)",   repIcon: "🍃" },
+  { c: "ป", name: "po pla",          roma: "p",   zh: "波",   tone: "mid",  rep: "ป ปลา (魚)",     repIcon: "🐟" },
+  { c: "ผ", name: "pho phueng",      roma: "ph",  zh: "潑",   tone: "high", rep: "ผ ผึ้ง (蜂)",    repIcon: "🐝" },
+  { c: "ฝ", name: "fo fa",           roma: "f",   zh: "夫",   tone: "high", rep: "ฝ ฝา (蓋)",      repIcon: "🪟" },
+  { c: "พ", name: "pho phan",        roma: "ph",  zh: "潑",   tone: "low",  rep: "พ พาน (高腳盤)", repIcon: "🍶" },
+  { c: "ฟ", name: "fo fan",          roma: "f",   zh: "夫",   tone: "low",  rep: "ฟ ฟัน (牙)",     repIcon: "🦷" },
+  { c: "ภ", name: "pho samphao",     roma: "ph",  zh: "潑",   tone: "low",  rep: "ภ สำเภา (帆船)", repIcon: "⛵" },
+  { c: "ม", name: "mo ma",           roma: "m",   zh: "嗯",   tone: "low",  rep: "ม ม้า (馬)",     repIcon: "🐴" },
+  { c: "ย", name: "yo yak",          roma: "y",   zh: "亦",   tone: "low",  rep: "ย ยักษ์ (夜叉)", repIcon: "👹" },
+  { c: "ร", name: "ro ruea",         roma: "r",   zh: "若",   tone: "low",  rep: "ร เรือ (船)",    repIcon: "⛵" },
+  { c: "ล", name: "lo ling",         roma: "l",   zh: "勒",   tone: "low",  rep: "ล ลิง (猴)",     repIcon: "🐒" },
+  { c: "ว", name: "wo waen",         roma: "w",   zh: "握",   tone: "low",  rep: "ว แหวน (戒指)",  repIcon: "💍" },
+  { c: "ศ", name: "so sala",         roma: "s",   zh: "斯",   tone: "high", rep: "ศ ศาลา (亭)",    repIcon: "⛩" },
+  { c: "ษ", name: "so ruesi",        roma: "s",   zh: "斯",   tone: "high", rep: "ษ ฤๅษี (隱士)",  repIcon: "🧙" },
+  { c: "ส", name: "so suea",         roma: "s",   zh: "斯",   tone: "high", rep: "ส เสือ (虎)",    repIcon: "🐅" },
+  { c: "ห", name: "ho hip",          roma: "h",   zh: "賀",   tone: "high", rep: "ห หีบ (箱)",     repIcon: "📦" },
+  { c: "ฬ", name: "lo chula",        roma: "l",   zh: "勒",   tone: "low",  rep: "ฬ จุฬา (風箏)",  repIcon: "🪁" },
+  { c: "อ", name: "o ang",           roma: "ʔ",   zh: "啊",   tone: "mid",  rep: "อ อ่าง (盆)",    repIcon: "🛁" },
+  { c: "ฮ", name: "ho nokhuk",       roma: "h",   zh: "賀",   tone: "low",  rep: "ฮ นกฮูก (貓頭鷹)", repIcon: "🦉" }
+];
+
+const VOWELS = [
+  { c: "–ะ",  name: "sara a (短)",     roma: "a",   zh: "啊（短）", tone: "none" },
+  { c: "–า",  name: "sara aa (長)",    roma: "aa",  zh: "啊（長）", tone: "none" },
+  { c: "–ิ",  name: "sara i (短)",     roma: "i",   zh: "依（短）", tone: "none" },
+  { c: "–ี",  name: "sara ii (長)",    roma: "ii",  zh: "依（長）", tone: "none" },
+  { c: "–ึ",  name: "sara ue (短)",    roma: "ue",  zh: "兒（短）", tone: "none" },
+  { c: "–ือ", name: "sara uue (長)",   roma: "uue", zh: "兒（長）", tone: "none" },
+  { c: "–ุ",  name: "sara u (短)",     roma: "u",   zh: "烏（短）", tone: "none" },
+  { c: "–ู",  name: "sara uu (長)",    roma: "uu",  zh: "烏（長）", tone: "none" },
+  { c: "เ–", name: "sara e (長)",      roma: "ee",  zh: "ㄟ",      tone: "none" },
+  { c: "เ–ะ",name: "sara e (短)",      roma: "e",   zh: "ㄟ（短）", tone: "none" },
+  { c: "แ–", name: "sara ae (長)",     roma: "ae",  zh: "ㄝ",      tone: "none" },
+  { c: "แ–ะ",name: "sara ae (短)",     roma: "ae",  zh: "ㄝ（短）", tone: "none" },
+  { c: "โ–", name: "sara o (長)",      roma: "oo",  zh: "歐",      tone: "none" },
+  { c: "โ–ะ",name: "sara o (短)",      roma: "o",   zh: "歐（短）", tone: "none" },
+  { c: "เ–าะ",name: "sara o (open短)", roma: "ɔ",   zh: "ㄛ（短）", tone: "none" },
+  { c: "–อ", name: "sara o (open長)",  roma: "ɔɔ",  zh: "ㄛ（長）", tone: "none" },
+  { c: "เ–อ", name: "sara oe (長)",    roma: "ɤɤ",  zh: "額（長）", tone: "none" },
+  { c: "เ–อะ",name: "sara oe (短)",    roma: "ɤ",   zh: "額（短）", tone: "none" },
+  { c: "เ–ีย",name: "sara ia",         roma: "ia",  zh: "依啊",    tone: "none" },
+  { c: "เ–ือ",name: "sara uea",        roma: "uea", zh: "兒啊",    tone: "none" },
+  { c: "–ัว", name: "sara ua",         roma: "ua",  zh: "烏啊",    tone: "none" },
+  { c: "ใ–", name: "sara ai mai muan", roma: "ai",  zh: "愛",      tone: "none" },
+  { c: "ไ–", name: "sara ai mai malai",roma: "ai",  zh: "愛",      tone: "none" },
+  { c: "เ–า",name: "sara ao",          roma: "ao",  zh: "凹",      tone: "none" },
+  { c: "–ำ", name: "sara am",          roma: "am",  zh: "暗",      tone: "none" }
+];
+
+const TONES = [
+  { c: "–่", name: "mai ek",   roma: "tone 1",  zh: "低平 / 第一聲調符號",  tone: "none", rep: "標記低聲調" },
+  { c: "–้", name: "mai tho",  roma: "tone 2",  zh: "降調 / 第二聲調符號",  tone: "none", rep: "標記降聲調" },
+  { c: "–๊", name: "mai tri",  roma: "tone 3",  zh: "高平 / 第三聲調符號",  tone: "none", rep: "標記高聲調" },
+  { c: "–๋", name: "mai chattawa", roma: "tone 4", zh: "升調 / 第四聲調符號", tone: "none", rep: "標記升聲調" },
+  { c: "–์", name: "thanthakhat", roma: "silent", zh: "標記字母不發音",      tone: "none", rep: "靜音記號" },
+  { c: "–ั", name: "mai han-akat", roma: "a",   zh: "短 a 母音標記",         tone: "none", rep: "短母音記號" }
+];
+
+const CATEGORIES = [
+  { id: "consonant", label: "子音", count: CONSONANTS.length, data: CONSONANTS },
+  { id: "vowel",     label: "母音", count: VOWELS.length,     data: VOWELS     },
+  { id: "tone",      label: "聲調符號", count: TONES.length,    data: TONES      }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  mode: "browse",
+  category: "consonant",
+  toneFilter: "all",
+  quizDir: "char-to-roma",
+  quizTotal: 0,
+  quizCorrect: 0,
+  quizWrong: 0,
+  quizCurrent: null,
+  writeIndex: 0
+};
+
+/* ============================================================
+   AUDIO  (Web Speech API; replace with real audio later)
+   ============================================================ */
+function speak(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "th-TH";
+  utter.rate = 0.7;
+  utter.pitch = 1;
+  speechSynthesis.speak(utter);
+  return utter;
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function getCategoryData(id) {
+  return CATEGORIES.find(c => c.id === id).data;
+}
+
+function filterData() {
+  let data = getCategoryData(state.category);
+  if (state.category === "consonant" && state.toneFilter !== "all") {
+    data = data.filter(d => d.tone === state.toneFilter);
+  }
+  return data;
+}
+
+function toneLabel(t) {
+  return ({ mid: "中音", high: "高音", low: "低音", none: "—" })[t] || "—";
+}
+
+/* ============================================================
+   RENDER: Category tabs (browse + write share these)
+   ============================================================ */
+function renderCatTabs(containerId, onChange) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = "";
+  CATEGORIES.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "cat-tab" + (cat.id === state.category ? " active" : "");
+    btn.innerHTML = `${cat.label}<span class="count">${cat.count}</span>`;
+    btn.onclick = () => {
+      state.category = cat.id;
+      onChange();
+    };
+    el.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   RENDER: Browse Grid
+   ============================================================ */
+function renderBrowse() {
+  renderCatTabs("cat-tabs", () => {
+    state.toneFilter = "all";
+    renderBrowse();
+  });
+
+  // Tone filter visibility
+  const tf = document.getElementById("tone-filter");
+  tf.classList.toggle("visible", state.category === "consonant");
+  tf.querySelectorAll(".tone-pill").forEach(pill => {
+    pill.classList.toggle("active", pill.dataset.tone === state.toneFilter);
+    pill.onclick = () => {
+      state.toneFilter = pill.dataset.tone;
+      renderBrowse();
+    };
+  });
+
+  const grid = document.getElementById("grid");
+  const data = filterData();
+  grid.innerHTML = "";
+
+  if (data.length === 0) {
+    grid.innerHTML = '<div class="empty-state">這個分類下沒有項目</div>';
+  } else {
+    data.forEach((item, i) => {
+      const card = document.createElement("div");
+      card.className = "letter-card";
+      card.dataset.tone = item.tone;
+      card.innerHTML = `
+        <div class="letter-char">${item.c}</div>
+        <div class="letter-meta">
+          <div class="letter-romanization">${item.roma}</div>
+          <div class="letter-rep">${item.zh}</div>
+        </div>
+      `;
+      card.onclick = () => openModal(item);
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById("stat-total").textContent = getCategoryData(state.category).length;
+  document.getElementById("stat-current").textContent = data.length;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(item) {
+  document.getElementById("m-char").textContent = item.c;
+  document.getElementById("m-name").textContent = item.name;
+  document.getElementById("m-roma").textContent = item.roma;
+  document.getElementById("m-zh").textContent = item.zh;
+
+  const toneTag = document.getElementById("m-tone");
+  toneTag.dataset.tone = item.tone;
+  toneTag.textContent = toneLabel(item.tone);
+  toneTag.style.display = item.tone === "none" ? "none" : "inline-block";
+
+  const repRow = document.getElementById("m-rep-row");
+  if (item.rep) {
+    repRow.style.display = "";
+    document.getElementById("m-rep-icon").textContent = item.repIcon || "•";
+    document.getElementById("m-rep-thai").textContent = item.rep;
+    document.getElementById("m-rep-zh").textContent = "";
+  } else {
+    repRow.style.display = "none";
+  }
+
+  const classRow = document.getElementById("m-class-row");
+  if (item.tone && item.tone !== "none") {
+    classRow.style.display = "";
+    document.getElementById("m-class").textContent = toneLabel(item.tone) + " (" + item.tone + ")";
+  } else {
+    classRow.style.display = "none";
+  }
+
+  // Play button
+  const playBtn = document.getElementById("m-play");
+  playBtn.onclick = () => {
+    playBtn.classList.add("playing");
+    const utter = speak(item.c);
+    if (utter) {
+      utter.onend = () => playBtn.classList.remove("playing");
+    } else {
+      setTimeout(() => playBtn.classList.remove("playing"), 600);
+    }
+  };
+
+  document.getElementById("modal-backdrop").classList.add("open");
+}
+
+document.getElementById("modal-close").onclick = closeModal;
+document.getElementById("modal-backdrop").onclick = (e) => {
+  if (e.target.id === "modal-backdrop") closeModal();
+};
+function closeModal() {
+  document.getElementById("modal-backdrop").classList.remove("open");
+  speechSynthesis.cancel();
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+function pickRandom(arr, n, exclude) {
+  const pool = arr.filter(x => x !== exclude);
+  const out = [];
+  while (out.length < n && pool.length) {
+    const idx = Math.floor(Math.random() * pool.length);
+    out.push(pool.splice(idx, 1)[0]);
+  }
+  return out;
+}
+
+function newQuestion() {
+  const pool = CONSONANTS.concat(VOWELS); // tone marks excluded from quiz
+  const ans = pool[Math.floor(Math.random() * pool.length)];
+  const distractors = pickRandom(pool, 3, ans);
+  const options = [ans, ...distractors].sort(() => Math.random() - 0.5);
+
+  state.quizCurrent = { ans, options };
+  document.getElementById("quiz-result").classList.remove("show");
+
+  const promptEl = document.getElementById("quiz-prompt");
+  const labelEl = document.getElementById("quiz-label");
+  const optsEl = document.getElementById("quiz-options");
+  optsEl.innerHTML = "";
+
+  if (state.quizDir === "char-to-roma") {
+    promptEl.textContent = ans.c;
+    promptEl.classList.remove("small");
+    labelEl.textContent = "這個字母的讀音是？";
+    options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-option";
+      btn.innerHTML = `<div class="opt-roma">${opt.roma}</div>`;
+      btn.onclick = () => answerQuiz(opt, btn);
+      optsEl.appendChild(btn);
+    });
+  } else {
+    promptEl.textContent = ans.roma;
+    promptEl.classList.add("small");
+    labelEl.textContent = "對應的字母是？";
+    options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "quiz-option";
+      btn.innerHTML = `<div class="opt-thai">${opt.c}</div>`;
+      btn.onclick = () => answerQuiz(opt, btn);
+      optsEl.appendChild(btn);
+    });
+  }
+
+  // progress numbers
+  state.quizTotal++;
+  document.getElementById("qp-num").textContent = "Q" + state.quizTotal;
+  document.getElementById("qs-total").textContent = state.quizTotal;
+}
+
+function answerQuiz(picked, btn) {
+  const { ans, options } = state.quizCurrent;
+  const correct = picked === ans;
+  const allBtns = document.querySelectorAll("#quiz-options .quiz-option");
+  allBtns.forEach(b => {
+    b.disabled = true;
+    const opt = options[Array.from(allBtns).indexOf(b)];
+    if (opt === ans) b.classList.add("correct");
+    if (b === btn && !correct) b.classList.add("wrong");
+  });
+
+  if (correct) {
+    state.quizCorrect++;
+    document.getElementById("qs-correct").textContent = state.quizCorrect;
+    document.getElementById("qr-feedback").textContent = "✓  正確";
+    document.getElementById("qr-feedback").className = "quiz-result-feedback correct";
+  } else {
+    state.quizWrong++;
+    document.getElementById("qs-wrong").textContent = state.quizWrong;
+    document.getElementById("qr-feedback").textContent = "✗  再試一次";
+    document.getElementById("qr-feedback").className = "quiz-result-feedback wrong";
+  }
+  document.getElementById("qr-detail").innerHTML =
+    `<strong>${ans.c}</strong> · ${ans.name} · <span style="color:var(--gold);font-family:'JetBrains Mono',monospace;">${ans.roma}</span> · ${ans.zh}`;
+
+  // Progress bar — assume target of 20 questions for full bar
+  const pct = Math.min(100, Math.round(state.quizCorrect / 20 * 100));
+  document.getElementById("qp-fill").style.width = pct + "%";
+  document.getElementById("qp-pct").textContent = pct + "%";
+
+  document.getElementById("quiz-result").classList.add("show");
+
+  // Auto-play the answer's pronunciation
+  speak(ans.c);
+}
+
+document.getElementById("qr-next").onclick = newQuestion;
+
+document.querySelectorAll(".quiz-dir-btn").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".quiz-dir-btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    state.quizDir = b.dataset.dir;
+    newQuestion();
+  };
+});
+
+/* ============================================================
+   WRITING / DETAIL VIEW
+   ============================================================ */
+function renderWrite() {
+  renderCatTabs("write-cat-tabs", () => {
+    state.writeIndex = 0;
+    renderWrite();
+  });
+
+  const data = getCategoryData(state.category);
+  const list = document.getElementById("write-list");
+  list.innerHTML = "";
+  data.forEach((item, i) => {
+    const cell = document.createElement("button");
+    cell.className = "write-letter-item" + (i === state.writeIndex ? " active" : "");
+    cell.textContent = item.c;
+    cell.onclick = () => {
+      state.writeIndex = i;
+      renderWrite();
+    };
+    list.appendChild(cell);
+  });
+
+  const cur = data[state.writeIndex];
+  document.getElementById("write-display").textContent = cur.c;
+  document.getElementById("write-cat-label").textContent =
+    state.category === "consonant" ? "CONSONANT" :
+    state.category === "vowel" ? "VOWEL" : "TONE MARK";
+  document.getElementById("wi-name").textContent = cur.name;
+  document.getElementById("wi-roma").textContent = cur.roma;
+  document.getElementById("wi-zh").textContent = cur.zh;
+
+  // Tip rotation
+  const tips = {
+    consonant: "提示：泰文書寫從圓圈（หัว）開始，順時針或逆時針依字母而定，最後寫主體線條。",
+    vowel: "提示：母音可寫在子音的前、後、上、下，書寫順序仍以子音為先。",
+    tone: "提示：聲調符號永遠寫在字的最上方，於母音之上。"
+  };
+  document.getElementById("write-tip").textContent = tips[state.category];
+}
+
+document.getElementById("write-prev").onclick = () => {
+  const data = getCategoryData(state.category);
+  state.writeIndex = (state.writeIndex - 1 + data.length) % data.length;
+  renderWrite();
+};
+document.getElementById("write-next").onclick = () => {
+  const data = getCategoryData(state.category);
+  state.writeIndex = (state.writeIndex + 1) % data.length;
+  renderWrite();
+};
+document.getElementById("write-play").onclick = () => {
+  const cur = getCategoryData(state.category)[state.writeIndex];
+  speak(cur.c);
+};
+
+/* ============================================================
+   MODE SWITCHER
+   ============================================================ */
+document.querySelectorAll(".mode-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    state.mode = btn.dataset.mode;
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.getElementById("view-" + state.mode).classList.add("active");
+
+    if (state.mode === "browse") renderBrowse();
+    if (state.mode === "quiz") {
+      // reset on first entry; keep on subsequent
+      if (state.quizTotal === 0) newQuestion();
+    }
+    if (state.mode === "write") renderWrite();
+  };
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderBrowse();
+</script>
+</body>
+</html>

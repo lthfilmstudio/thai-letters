@@ -1,0 +1,199 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Sarabun", "Noto Sans Thai", -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top left, #1A2B2440 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, #2D4A3E30 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+  position: relative;
+}
+
+/* ─── Header ─── */
+header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 56px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title-block .eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.title-block h1 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.title-block h1 .thai {
+  font-family: "Noto Sans Thai", serif;
+  font-weight: 600;
+  color: var(--gold);
+  margin-right: 16px;
+}
+
+.title-block .subtitle {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text-dim);
+  margin-top: 12px;
+}
+
+.stats {
+  display: flex;
+  gap: 32px;
+  text-align: right;
+}
+
+.stat { font-family: "JetBrains Mono", monospace; }
+
+.stat-num {
+  font-size: 28px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-top: 4px;
+}
+
+/* ─── Mode Switcher ─── */
+.modes {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 32px;
+  background: var(--panel);
+  padding: 6px;
+  border-radius: 999px;
+  width: fit-content;
+  border: 1px solid var(--border);
+}
+
+.mode-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: "Sarabun", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(.45,.05,.35,1);
+  letter-spacing: 0.02em;
+}
+
+.mode-btn:hover { color: var(--text); }
+
+.mode-btn.active {
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+/* ─── Category Tabs ─── */
+.cat-tabs {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.cat-tab {
+  background: none;
+  border: none;
+  color: var(--text-mute);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
+  transition: color 0.3s ease;
+  letter-spacing: 0.01em;
+}
+
+.cat-tab:hover { color: var(--text-dim); }
+.cat-tab.active { color: var(--gold); }
+
+.cat-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -17px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold);
+}
+
+.cat-tab .count {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-left: 6px;
+  vertical-align: super;
+}
+
+/* ─── View visibility ─── */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ─── Empty state ─── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-mute);
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 18px;
+}
+
+/* ─── Responsive ─── */
+@media screen and (max-width: 760px) {
+  header { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .stats { width: 100%; justify-content: space-between; text-align: left; }
+  .stat { text-align: left; }
+}

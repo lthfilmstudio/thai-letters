@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>泰文字母互動學習</title>
+<link rel="manifest" href="./manifest.json" />
+<meta name="theme-color" content="#0F1814" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./css/tokens.css" />
+<link rel="stylesheet" href="./css/base.css" />
+<link rel="stylesheet" href="./css/browse.css" />
+<link rel="stylesheet" href="./css/modal.css" />
+<link rel="stylesheet" href="./css/quiz.css" />
+<link rel="stylesheet" href="./css/write.css" />
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="title-block">
+      <div class="eyebrow">Thai Alphabet · Interactive Reference</div>
+      <h1><span class="thai">อักษรไทย</span><span style="font-style:italic;">Aksorn Thai</span></h1>
+      <div class="subtitle">子音・母音・聲調 — 互動學習</div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label">total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-current">—</div>
+        <div class="stat-label">showing</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mode Switcher -->
+  <div class="modes" role="tablist">
+    <button class="mode-btn active" data-mode="browse">瀏覽</button>
+    <button class="mode-btn" data-mode="quiz">測驗</button>
+    <button class="mode-btn" data-mode="write">書寫</button>
+  </div>
+
+  <!-- ============ BROWSE VIEW ============ -->
+  <div class="view active" id="view-browse">
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <div class="tone-filter" id="tone-filter">
+      <button class="tone-pill active" data-tone="all">全部</button>
+      <button class="tone-pill" data-tone="mid">中音 Mid</button>
+      <button class="tone-pill" data-tone="high">高音 High</button>
+      <button class="tone-pill" data-tone="low">低音 Low</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- ============ QUIZ VIEW ============ -->
+  <div class="view" id="view-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-direction">
+        <button class="quiz-dir-btn active" data-dir="char-to-roma">看字母選讀音</button>
+        <button class="quiz-dir-btn" data-dir="roma-to-char">看讀音選字母</button>
+      </div>
+      <div class="quiz-score">
+        <div class="score-cell"><div class="num" id="qs-total">0</div><div class="label">total</div></div>
+        <div class="score-cell correct"><div class="num" id="qs-correct">0</div><div class="label">correct</div></div>
+        <div class="score-cell wrong"><div class="num" id="qs-wrong">0</div><div class="label">wrong</div></div>
+      </div>
+      <div class="quiz-progress">
+        <span id="qp-num">Q1</span>
+        <div class="progress-bar"><div class="progress-fill" id="qp-fill"></div></div>
+        <span id="qp-pct">0%</span>
+      </div>
+      <div class="quiz-question">
+        <div class="quiz-prompt-label" id="quiz-label">字母</div>
+        <div class="quiz-prompt" id="quiz-prompt">—</div>
+      </div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="quiz-result" id="quiz-result">
+        <div class="quiz-result-feedback" id="qr-feedback"></div>
+        <div class="quiz-result-detail" id="qr-detail"></div>
+        <button class="quiz-next" id="qr-next">下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WRITING VIEW ============ -->
+  <div class="view" id="view-write">
+    <div class="cat-tabs" id="write-cat-tabs"></div>
+    <div class="write-wrap">
+      <aside class="write-sidebar">
+        <div class="write-letter-list" id="write-list"></div>
+      </aside>
+      <main class="write-canvas-wrap">
+        <div class="quiz-prompt-label" id="write-cat-label">CONSONANT</div>
+        <div class="write-guide-wrap">
+          <div class="write-display" id="write-display">ก</div>
+        </div>
+        <div class="write-info">
+          <div class="write-info-cell">字母名稱<span class="v" id="wi-name">—</span></div>
+          <div class="write-info-cell">羅馬拼音<span class="v" id="wi-roma">—</span></div>
+          <div class="write-info-cell">中文音<span class="v" id="wi-zh">—</span></div>
+        </div>
+        <div class="write-actions">
+          <button class="write-action-btn" id="write-play">▶ 聽發音</button>
+          <button class="write-action-btn" id="write-prev">← 上一個</button>
+          <button class="write-action-btn" id="write-next">下一個 →</button>
+        </div>
+        <div class="write-tip" id="write-tip">提示：依照泰文書寫慣例，先從圓圈開始，再畫主體。</div>
+      </main>
+    </div>
+  </div>
+
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <div class="modal-hero">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="modal-char" id="m-char">—</div>
+      <span class="modal-tone-tag" id="m-tone" data-tone="mid">—</span>
+    </div>
+    <div class="modal-body">
+      <div class="info-row">
+        <div class="info-label">字母名稱</div>
+        <div class="info-value" id="m-name">—</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">羅馬拼音</div>
+        <div class="info-value"><span class="roma" id="m-roma">—</span></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">中文音</div>
+        <div class="info-value" id="m-zh">—</div>
+      </div>
+      <div class="info-row" id="m-rep-row">
+        <div class="info-label">代表詞</div>
+        <div class="info-value">
+          <div class="rep-block">
+            <span class="rep-icon" id="m-rep-icon">—</span>
+            <div class="rep-text-wrap">
+              <span class="rep-thai" id="m-rep-thai">—</span>
+              <span class="rep-zh" id="m-rep-zh">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" id="m-class-row">
+        <div class="info-label">聲調類別</div>
+        <div class="info-value" id="m-class">—</div>
+      </div>
+      <button class="play-btn" id="m-play">
+        <svg class="play-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l11 6-11 6V2z"/></svg>
+        <span>播放發音</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
