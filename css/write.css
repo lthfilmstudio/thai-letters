@@ -33,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Noto Sans Thai", serif;
+  font-family: "Sarabun", sans-serif;
   font-size: 24px;
   color: var(--text);
   transition: all 0.2s ease;
@@ -55,7 +55,7 @@
 }
 
 .write-display {
-  font-family: "Noto Sans Thai", serif;
+  font-family: "Sarabun", sans-serif;
   font-size: 200px;
   font-weight: 500;
   color: var(--text);
