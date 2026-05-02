@@ -72,13 +72,28 @@
 }
 .letter-card:hover::before { opacity: 1; }
 
-.letter-char {
-  font-family: "Noto Sans Thai", serif;
+.letter-chars {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.letter-char-sarabun {
+  font-family: "Sarabun", sans-serif;
   font-size: 48px;
   font-weight: 500;
   color: var(--text);
   line-height: 1;
-  margin-top: 4px;
+}
+
+.letter-char-noto {
+  font-family: "Noto Sans Thai", serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-mute);
+  line-height: 1;
 }
 
 .letter-meta {

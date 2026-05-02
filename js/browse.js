@@ -45,10 +45,12 @@ export function renderBrowse(categories, state) {
       card.className = "letter-card";
       card.dataset.tone = item.tone;
       card.innerHTML = `
-        <div class="letter-char">${item.c}</div>
+        <div class="letter-chars">
+          <span class="letter-char-sarabun">${item.c}</span>
+          <span class="letter-char-noto">${item.c}</span>
+        </div>
         <div class="letter-meta">
           <div class="letter-romanization">${item.roma}</div>
-          <div class="letter-rep">${item.zh}</div>
         </div>
       `;
       card.onclick = () => openModal(item);

@@ -209,6 +209,13 @@
 .inline-play-btn:hover { border-color: var(--gold); color: var(--gold); }
 .inline-play-btn.playing { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
 
+/* ─── 字母名稱 Thai display ─── */
+.name-thai {
+  font-family: "Sarabun", "Noto Sans Thai", sans-serif;
+  font-size: 20px;
+  color: var(--text);
+}
+
 /* ─── Font comparison row ─── */
 .font-compare {
   display: flex;
@@ -223,13 +230,12 @@
 }
 
 .font-char {
-  font-size: 48px;
   font-weight: 500;
   color: var(--text);
   line-height: 1;
 }
-.font-char--noto    { font-family: "Noto Sans Thai", serif; }
-.font-char--sarabun { font-family: "Sarabun", sans-serif; }
+.font-char--sarabun { font-family: "Sarabun", sans-serif;   font-size: 56px; }
+.font-char--noto    { font-family: "Noto Sans Thai", serif; font-size: 28px; color: var(--text-dim); }
 
 .font-label {
   font-family: "JetBrains Mono", monospace;

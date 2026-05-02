@@ -3,7 +3,7 @@
 html, body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Sarabun", "Noto Sans Thai", -apple-system, sans-serif;
+  font-family: "Sarabun", "Noto Sans Thai", "Noto Sans TC", -apple-system, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }

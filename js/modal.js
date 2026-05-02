@@ -20,7 +20,8 @@ function wireInlinePlay(id, text, lang) {
 
 export function openModal(item) {
   document.getElementById("m-char").textContent = item.c;
-  document.getElementById("m-name").textContent = item.name;
+  const nameThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : item.c;
+  document.getElementById("m-name").textContent = nameThai;
   document.getElementById("m-roma").textContent = item.roma;
 
   const toneTag = document.getElementById("m-tone");
@@ -52,7 +53,7 @@ export function openModal(item) {
 
   // Play buttons
   const repThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : "";
-  wireInlinePlay("m-play-name", item.name, "en-US");
+  wireInlinePlay("m-play-name", nameThai, "th-TH");
   wireInlinePlay("m-play-rep", repThai, "th-TH");
 
   const playBtn = document.getElementById("m-play");
