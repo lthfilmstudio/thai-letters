@@ -59,8 +59,8 @@
   font-size: 200px;
   font-weight: 500;
   color: var(--text);
-  line-height: 1;
-  margin: 24px 0;
+  line-height: 1.5;
+  margin: 0;
   letter-spacing: 0.02em;
   position: relative;
   display: inline-block;
@@ -69,7 +69,7 @@
 .write-guide-wrap {
   display: inline-block;
   position: relative;
-  padding: 12px 24px;
+  padding: 16px 40px 32px;
   background:
     repeating-linear-gradient(0deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px),
     repeating-linear-gradient(90deg, transparent, transparent 49px, var(--border) 49px, var(--border) 50px);
@@ -80,7 +80,7 @@
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin: 16px 0 24px;
+  margin: 40px 0 24px;
   flex-wrap: wrap;
 }
 
