@@ -132,4 +132,7 @@
 
 @media screen and (max-width: 760px) {
   .write-wrap { grid-template-columns: 1fr; }
+  .write-canvas-wrap { padding: 16px; }
+  .write-actions { flex-wrap: nowrap; gap: 6px; width: 100%; }
+  .write-action-btn { padding: 10px 8px; font-size: 12px; gap: 4px; flex: 1; justify-content: center; }
 }
