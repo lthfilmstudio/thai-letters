@@ -47,9 +47,7 @@ export function openModal(item) {
     classRow.style.display = "none";
   }
 
-  // Font comparison
   document.getElementById("m-font-noto").textContent = item.c;
-  document.getElementById("m-font-sarabun").textContent = item.c;
 
   // Play buttons
   const repThai = item.rep ? item.rep.replace(/\s*\(.*\)/, "").trim() : "";

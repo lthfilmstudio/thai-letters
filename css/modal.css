@@ -76,7 +76,7 @@
 .modal-close:hover { border-color: var(--gold); color: var(--gold); }
 
 .modal-char {
-  font-family: "Noto Sans Thai", serif;
+  font-family: "Sarabun", sans-serif;
   font-size: 120px;
   font-weight: 500;
   line-height: 1;
@@ -234,8 +234,16 @@
   color: var(--text);
   line-height: 1;
 }
-.font-char--sarabun { font-family: "Sarabun", sans-serif;   font-size: 56px; }
-.font-char--noto    { font-family: "Noto Sans Thai", serif; font-size: 28px; color: var(--text-dim); }
+.font-char--noto { font-family: "Noto Sans Thai", serif; font-size: 64px; }
+
+/* 印刷體 label for 字形 row */
+.info-label--serif {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--text-mute);
+}
 
 .font-label {
   font-family: "JetBrains Mono", monospace;

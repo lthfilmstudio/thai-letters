@@ -145,7 +145,7 @@ header {
   background: none;
   border: none;
   color: var(--text-mute);
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Cormorant Garamond", "Noto Sans TC", serif;
   font-size: 22px;
   font-weight: 500;
   cursor: pointer;
