@@ -192,3 +192,55 @@
 @media screen and (max-width: 760px) {
   .quiz-prompt { font-size: 72px; }
 }
+
+/* ===== SRS 「今日複習」 ===== */
+.srs-count:empty { display: none; }
+.srs-count {
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.mode-btn.active .srs-count { color: var(--text); }
+
+.srs-done {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 56px 20px 40px;
+}
+.srs-done.show { display: flex; }
+
+.srs-done-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(196, 165, 116, 0.14);
+  border: 1px solid rgba(196, 165, 116, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 30px;
+  font-weight: 300;
+  animation: srs-done-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes srs-done-pop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.srs-done-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+.srs-done-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}

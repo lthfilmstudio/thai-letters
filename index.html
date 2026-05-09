@@ -41,6 +41,7 @@
     <button class="mode-btn active" data-mode="browse">瀏覽</button>
     <button class="mode-btn" data-mode="quiz">測驗</button>
     <button class="mode-btn" data-mode="write">書寫</button>
+    <button class="mode-btn" data-mode="srs">今日複習<span class="srs-count" id="srs-tab-count"></span></button>
   </div>
 
   <!-- ============ BROWSE VIEW ============ -->
@@ -81,6 +82,40 @@
         <div class="quiz-result-feedback" id="qr-feedback"></div>
         <div class="quiz-result-detail" id="qr-detail"></div>
         <button class="quiz-next" id="qr-next">下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SRS (TODAY'S REVIEW) ============ -->
+  <div class="view" id="view-srs">
+    <div class="quiz-wrap">
+      <div class="quiz-direction">
+        <button class="quiz-dir-btn active" data-srs-dir="char-to-roma">看字母選讀音</button>
+        <button class="quiz-dir-btn" data-srs-dir="roma-to-char">看讀音選字母</button>
+      </div>
+      <div class="quiz-score">
+        <div class="score-cell"><div class="num" id="srs-due">0</div><div class="label">待複習</div></div>
+        <div class="score-cell correct"><div class="num" id="srs-correct">0</div><div class="label">本輪對</div></div>
+        <div class="score-cell wrong"><div class="num" id="srs-wrong">0</div><div class="label">本輪錯</div></div>
+      </div>
+      <div class="quiz-progress">
+        <span id="srs-progress-text">—</span>
+        <div class="progress-bar"><div class="progress-fill" id="srs-progress-fill"></div></div>
+      </div>
+      <div class="quiz-question">
+        <div class="quiz-prompt-label" id="srs-label">字母</div>
+        <div class="quiz-prompt" id="srs-prompt">—</div>
+      </div>
+      <div class="quiz-options" id="srs-options"></div>
+      <div class="quiz-result" id="srs-result">
+        <div class="quiz-result-feedback" id="srs-feedback"></div>
+        <div class="quiz-result-detail" id="srs-detail"></div>
+        <button class="quiz-next" id="srs-next">下一題 →</button>
+      </div>
+      <div class="srs-done" id="srs-done">
+        <div class="srs-done-icon">✓</div>
+        <div class="srs-done-title">今日複習完成</div>
+        <div class="srs-done-sub" id="srs-done-sub">下次複習：明天</div>
       </div>
     </div>
   </div>
