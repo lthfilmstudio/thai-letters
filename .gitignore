@@ -1,0 +1,5 @@
+# Textbook CD and the clips cut from it stay out of git (copyright); deployed behind Access.
+audio/課本音檔/
+audio/book/
+dist/
+.wrangler/

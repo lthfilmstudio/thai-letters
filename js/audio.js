@@ -1,10 +1,18 @@
-export function speak(text, lang = "th-TH") {
-  if (!("speechSynthesis" in window)) return null;
-  speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = lang;
-  utter.rate = 0.7;
-  utter.pitch = 1;
-  speechSynthesis.speak(utter);
-  return utter;
+import { SPEECH } from "../data/speech.js";
+
+let current = null;
+
+// Recorded audio (textbook CD, Aom for the rest). kind 0 = the letter, 1 = its name.
+export function speak(c, kind = 0) {
+  stopSpeaking();
+  const src = SPEECH[c]?.[kind];
+  if (!src) return null;
+  current = new Audio("audio/" + src);
+  current.play().catch(() => {});
+  return current;
+}
+
+export function stopSpeaking() {
+  if (current) current.pause();
+  current = null;
 }

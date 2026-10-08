@@ -1,18 +1,18 @@
-import { speak } from "./audio.js";
+import { speak, stopSpeaking } from "./audio.js";
 import { showStrokeSample, stopStrokeSample } from "./stroke-sample.js";
 
 function toneLabel(t) {
   return ({ mid: "中音", high: "高音", low: "低音", none: "—" })[t] || "—";
 }
 
-function wireInlinePlay(id, text, lang) {
+function wireInlinePlay(id, c, kind) {
   const btn = document.getElementById(id);
   if (!btn) return;
   btn.onclick = () => {
     btn.classList.add("playing");
-    const utter = speak(text, lang);
-    if (utter) {
-      utter.onend = () => btn.classList.remove("playing");
+    const audio = speak(c, kind);
+    if (audio) {
+      audio.onended = audio.onerror = () => btn.classList.remove("playing");
     } else {
       setTimeout(() => btn.classList.remove("playing"), 600);
     }
@@ -51,16 +51,15 @@ export function openModal(item) {
   document.getElementById("m-font-noto").textContent = item.c;
 
   // Play buttons
-  const repThai = item.rep ? item.rep.replace(/\s*[（(][^）)]*[）)]/, "").trim() : "";
-  wireInlinePlay("m-play-name", nameThai, "th-TH");
-  wireInlinePlay("m-play-rep", repThai, "th-TH");
+  wireInlinePlay("m-play-name", item.c, 1);
+  wireInlinePlay("m-play-rep", item.c, 1);
 
   const playBtn = document.getElementById("m-play");
   playBtn.onclick = () => {
     playBtn.classList.add("playing");
-    const utter = speak(item.c);
-    if (utter) {
-      utter.onend = () => playBtn.classList.remove("playing");
+    const audio = speak(item.c);
+    if (audio) {
+      audio.onended = audio.onerror = () => playBtn.classList.remove("playing");
     } else {
       setTimeout(() => playBtn.classList.remove("playing"), 600);
     }
@@ -73,7 +72,7 @@ export function openModal(item) {
 export function closeModal() {
   stopStrokeSample();
   document.getElementById("modal-backdrop").classList.remove("open");
-  speechSynthesis.cancel();
+  stopSpeaking();
 }
 
 export function initModal() {

@@ -1,4 +1,4 @@
-const CACHE = "thai-letters-v26";
+const CACHE = "thai-letters-v27";
 
 const PRECACHE = [
   "./",
@@ -15,6 +15,7 @@ const PRECACHE = [
   "./data/tones.js",
   "./js/main.js",
   "./js/audio.js",
+  "./data/speech.js",
   "./js/browse.js",
   "./js/modal.js",
   "./js/stroke-sample.js",
@@ -46,6 +47,9 @@ self.addEventListener("activate", e => {
 });
 
 self.addEventListener("fetch", e => {
+  // Pronunciation clips go straight to the network: media range requests and Safari
+  // playback break when a service worker answers them.
+  if (e.request.url.includes("/audio/")) return;
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
