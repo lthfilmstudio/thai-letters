@@ -1,4 +1,5 @@
 import { speak } from "./audio.js";
+import { showStrokeSample, stopStrokeSample } from "./stroke-sample.js";
 
 function toneLabel(t) {
   return ({ mid: "中音", high: "高音", low: "低音", none: "—" })[t] || "—";
@@ -66,9 +67,11 @@ export function openModal(item) {
   };
 
   document.getElementById("modal-backdrop").classList.add("open");
+  showStrokeSample(item.c);
 }
 
 export function closeModal() {
+  stopStrokeSample();
   document.getElementById("modal-backdrop").classList.remove("open");
   speechSynthesis.cancel();
 }

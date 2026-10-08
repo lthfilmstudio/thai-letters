@@ -11,6 +11,41 @@
 }
 .modal-backdrop.open { display: flex; }
 
+/* Stroke animations draw along each route; the drawn line is the finished letter. */
+.modal.has-stroke-sample { max-height: calc(100dvh - 48px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gold) var(--panel); }
+.has-stroke-sample .modal-hero {
+  padding: 26px 32px 22px;
+  background: radial-gradient(ellipse at 50% 48%, var(--card-flipped) 0%, var(--card) 65%);
+}
+.has-stroke-sample .modal-body { padding: 16px 32px 24px; }
+.stroke-sample[hidden] { display: none; }
+.stroke-heading {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-right: 38px; color: var(--text-dim); font-size: 12px; letter-spacing: .18em;
+}
+.stroke-count { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--gold); letter-spacing: .1em; }
+.stroke-canvas { display: block; width: min(100%, 280px); height: 220px; margin: 5px auto 0; overflow: visible; }
+.stroke-guide { fill: none; stroke: var(--text); stroke-opacity: .07; stroke-width: 1; stroke-dasharray: 2 6; }
+.stroke-ink { fill: none; stroke: var(--text); stroke-linecap: round; stroke-linejoin: round; }
+.stroke-glow { filter: drop-shadow(0 0 5px #C4A574CC) drop-shadow(0 0 16px #C4A57480); }
+.stroke-placeholder { fill: none; stroke: var(--text); stroke-opacity: .25; stroke-width: 2; stroke-dasharray: 2 8; stroke-linecap: round; }
+.stroke-note { color: var(--text-dim); font-size: 11px; margin: -8px 0 12px; }
+.stroke-halo { fill: var(--gold); opacity: .65; }
+.stroke-point { fill: var(--text); }
+.stroke-status { color: var(--text-dim); font-size: 12px; margin: 4px 0 14px; min-height: 18px; letter-spacing: .04em; }
+.stroke-controls { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; }
+.stroke-controls button {
+  background: transparent; border: 1px solid var(--border); border-radius: 999px;
+  padding: 7px 17px; color: var(--text-dim); font: inherit; font-size: 12px; cursor: pointer;
+}
+.stroke-controls button:hover, .stroke-controls button[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); background: var(--gold-soft); }
+.stroke-controls button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .has-stroke-sample .modal-hero { padding: 24px 20px 18px; }
+  .has-stroke-sample .modal-body { padding: 12px 20px 20px; }
+  .stroke-canvas { height: 190px; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .modal-backdrop.open { animation: fadeIn 0.3s ease; }
   .modal-backdrop.open .modal { animation: modalIn 0.4s cubic-bezier(.45,.05,.35,1); }
