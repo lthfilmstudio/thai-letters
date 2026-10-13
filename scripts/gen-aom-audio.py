@@ -24,10 +24,32 @@ def texts():
                 seen.append(t)
     combos = subprocess.run(['node', '--input-type=module', '-e',
                              'const m = await import("./data/combos.js");'
-                             'console.log(JSON.stringify(m.allCombos().map(x => x.syl)))'],
+                             'console.log(JSON.stringify(m.allCombos().map(x => x.audio.slice(4, -4))))'],
                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
     seen += [t for t in json.loads(combos) if t not in seen]
     return seen
+
+
+# Aom misreads some lone syllables (as abbreviations, or with a tone the syllable does not have).
+# SPOKEN: send a spelling that sounds the same. TRIPLE: say it three times, keep the middle one.
+SPOKEN = {'อำ': 'อัม', 'ตำ': 'ตัม'}
+TRIPLE = {'อา', 'เก', 'เป'}
+
+
+def middle_take(path):
+    """Cut the middle of three takes out of path, in place (ffmpeg silencedetect)."""
+    ff = os.path.expanduser('~/.local/bin/ffmpeg')
+    log = subprocess.run([ff, '-hide_banner', '-i', path, '-af', 'silencedetect=n=-40dB:d=0.12', '-f', 'null', '-'],
+                         capture_output=True, text=True).stderr
+    starts = [float(x) for x in re.findall(r'silence_start: ([\d.]+)', log)]
+    ends = [float(x) for x in re.findall(r'silence_end: ([\d.]+)', log)]
+    gaps = [(a, b) for a, b in zip(starts, ends) if a > 0.05]  # silences between takes
+    if len(gaps) < 2:
+        sys.exit(f'FAILED {path}: expected 3 takes, found {len(gaps) + 1}')
+    a, b = gaps[0][1] - 0.05, gaps[1][0] + 0.08
+    tmp = str(path) + '.tmp.mp3'
+    subprocess.run([ff, '-y', '-v', 'error', '-i', path, '-ss', f'{a:.3f}', '-to', f'{b:.3f}', '-c:a', 'libmp3lame', '-b:a', '128k', tmp], check=True)
+    os.replace(tmp, path)
 
 
 def path_for(text):
@@ -46,7 +68,8 @@ def main():
                if l.startswith('ELEVENLABS_API_KEY='))
     OUT.mkdir(parents=True, exist_ok=True)
     for i, text in enumerate(todo, 1):
-        body = json.dumps({'text': text, 'model_id': MODEL, 'language_code': 'th'}, ensure_ascii=False).encode()
+        spoken = ' '.join([text] * 3) if text in TRIPLE else SPOKEN.get(text, text)
+        body = json.dumps({'text': spoken, 'model_id': MODEL, 'language_code': 'th'}, ensure_ascii=False).encode()
         req = request.Request(f'https://api.elevenlabs.io/v1/text-to-speech/{VOICE}?output_format=mp3_44100_128',
                               data=body, method='POST', headers={'xi-api-key': key, 'Content-Type': 'application/json'})
         for attempt in range(4):
@@ -60,6 +83,8 @@ def main():
                     time.sleep(2 ** attempt * 2)
                     continue
                 sys.exit(f'FAILED {text}: HTTP {e.code} {msg}')
+        if text in TRIPLE:
+            middle_take(path_for(text))
         print(f'{i}/{len(todo)} {text}', flush=True)
 
 

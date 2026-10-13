@@ -57,11 +57,14 @@ export const COMBO_WORDS = {
   "อำ": "唬弄"
 };
 
+// 發音完全相同、共用音檔（Aom 念單獨的 ใก 會念錯）
+const SAME_AUDIO = { "ใก": "ไก" };
+
 export function comboRow(c) {
   const con = COMBO_CONSONANTS.find(x => x.c === c);
   return COMBO_VOWELS.map(({ v, roma }) => {
     const syl = v.replace("◌", c);
-    return { syl, roma: con.roma + roma, audio: "aom/" + syl + ".mp3", zh: COMBO_WORDS[syl] || "" };
+    return { syl, roma: con.roma + roma, audio: "aom/" + (SAME_AUDIO[syl] || syl) + ".mp3", zh: COMBO_WORDS[syl] || "" };
   });
 }
 
