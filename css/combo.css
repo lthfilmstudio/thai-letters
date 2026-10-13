@@ -1,0 +1,89 @@
+/* ─── 拼字盤 ─── */
+.combo-consonants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.combo-con {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: "Sarabun", sans-serif;
+  font-size: 26px;
+  line-height: 1.5;
+  width: 52px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.combo-con:hover { border-color: var(--gold-dim); color: var(--text); }
+.combo-con.active {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.combo-cell {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 8px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  transition: all 0.25s cubic-bezier(.45,.05,.35,1);
+}
+.combo-cell:hover {
+  background: var(--card-flipped);
+  border-color: var(--gold-dim);
+}
+.combo-cell.playing { border-color: var(--gold); }
+
+.combo-syl {
+  font-family: "Sarabun", sans-serif;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.combo-roma {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+.combo-word {
+  display: none;
+  margin-top: 20px;
+  padding: 14px 18px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  background: var(--panel);
+  align-items: baseline;
+  gap: 16px;
+}
+.combo-word.show { display: flex; }
+.combo-word-thai {
+  font-family: "Sarabun", sans-serif;
+  font-size: 28px;
+  line-height: 1.5;
+  color: var(--gold);
+}
+.combo-word-zh { font-size: 18px; color: var(--text); }
+
+@media (max-width: 760px) {
+  .combo-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .combo-syl { font-size: 36px; }
+  .combo-con { width: calc((100% - 32px) / 5); }
+}

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Make every audio/aom/<text>.mp3 that data/speech.js uses, with ElevenLabs Aom.
+"""Make every audio/aom/<text>.mp3 that data/speech.js and data/combos.js use, with ElevenLabs Aom.
 
 Same voice and model as thai-review (Aom, eleven_v4). Only missing files are made, so
 rerunning after editing data/speech.js costs only the new texts. Key: ~/.secrets/elevenlabs.env.
 Usage: python3 scripts/gen-aom-audio.py [--dry-run] [--force TEXT ...]
 """
-import json, os, re, sys, time
+import json, os, re, subprocess, sys, time
 from pathlib import Path
 from urllib import request, error
 
@@ -22,6 +22,11 @@ def texts():
             t = path[len('aom/'):-len('.mp3')].replace('_', ' ')
             if path.startswith('aom/') and t not in seen:
                 seen.append(t)
+    combos = subprocess.run(['node', '--input-type=module', '-e',
+                             'const m = await import("./data/combos.js");'
+                             'console.log(JSON.stringify(m.allCombos().map(x => x.syl)))'],
+                            cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    seen += [t for t in json.loads(combos) if t not in seen]
     return seen
 
 

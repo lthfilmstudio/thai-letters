@@ -1,4 +1,4 @@
-const CACHE = "thai-letters-v29";
+const CACHE = "thai-letters-v31";
 
 const PRECACHE = [
   "./",
@@ -8,11 +8,12 @@ const PRECACHE = [
   "./css/base.css",
   "./css/browse.css",
   "./css/modal.css",
-  "./css/quiz.css",
-  "./css/write.css",
+  "./css/combo.css",
   "./data/consonants.js",
   "./data/vowels.js",
   "./data/tones.js",
+  "./data/combos.js",
+  "./js/combo.js",
   "./js/main.js",
   "./js/audio.js",
   "./data/speech.js",
@@ -21,11 +22,6 @@ const PRECACHE = [
   "./js/stroke-sample.js",
   "./data/stroke-guides-fitted.js",
   "./data/stroke-glyphs.js",
-  "./js/quiz.js",
-  "./js/write.js",
-  "./js/srs.js",
-  "./js/state.js",
-  "./js/srs-mode.js",
   "./assets/icons/icon.svg",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
@@ -35,7 +31,8 @@ const PRECACHE = [
 
 self.addEventListener("install", e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(PRECACHE))
+    // reload: skip the browser HTTP cache so a new version never pins an old file
+    caches.open(CACHE).then(c => c.addAll(PRECACHE.map(u => new Request(u, { cache: "reload" }))))
   );
   self.skipWaiting();
 });

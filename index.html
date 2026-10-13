@@ -15,8 +15,7 @@
 <link rel="stylesheet" href="./css/base.css" />
 <link rel="stylesheet" href="./css/browse.css" />
 <link rel="stylesheet" href="./css/modal.css" />
-<link rel="stylesheet" href="./css/quiz.css" />
-<link rel="stylesheet" href="./css/write.css" />
+<link rel="stylesheet" href="./css/combo.css" />
 </head>
 <body>
 <div class="app">
@@ -41,9 +40,7 @@
   <!-- Mode Switcher -->
   <div class="modes" role="tablist">
     <button class="mode-btn active" data-mode="browse">瀏覽</button>
-    <button class="mode-btn" data-mode="quiz">測驗</button>
-    <button class="mode-btn" data-mode="write">書寫</button>
-    <button class="mode-btn" data-mode="srs">今日複習<span class="srs-count" id="srs-tab-count"></span></button>
+    <button class="mode-btn" data-mode="combo">拼字盤</button>
   </div>
 
   <!-- ============ BROWSE VIEW ============ -->
@@ -58,95 +55,11 @@
     <div class="grid" id="grid"></div>
   </div>
 
-  <!-- ============ QUIZ VIEW ============ -->
-  <div class="view" id="view-quiz">
-    <div class="quiz-wrap">
-      <div class="quiz-direction">
-        <button class="quiz-dir-btn active" data-dir="char-to-roma">看字母選讀音</button>
-        <button class="quiz-dir-btn" data-dir="roma-to-char">看讀音選字母</button>
-      </div>
-      <div class="quiz-score">
-        <div class="score-cell"><div class="num" id="qs-total">0</div><div class="label">total</div></div>
-        <div class="score-cell correct"><div class="num" id="qs-correct">0</div><div class="label">correct</div></div>
-        <div class="score-cell wrong"><div class="num" id="qs-wrong">0</div><div class="label">wrong</div></div>
-      </div>
-      <div class="quiz-progress">
-        <span id="qp-num">Q1</span>
-        <div class="progress-bar"><div class="progress-fill" id="qp-fill"></div></div>
-        <span id="qp-pct">0%</span>
-      </div>
-      <div class="quiz-question">
-        <div class="quiz-prompt-label" id="quiz-label">字母</div>
-        <div class="quiz-prompt" id="quiz-prompt">—</div>
-      </div>
-      <div class="quiz-options" id="quiz-options"></div>
-      <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-feedback" id="qr-feedback"></div>
-        <div class="quiz-result-detail" id="qr-detail"></div>
-        <button class="quiz-next" id="qr-next">下一題 →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ SRS (TODAY'S REVIEW) ============ -->
-  <div class="view" id="view-srs">
-    <div class="quiz-wrap">
-      <div class="quiz-direction">
-        <button class="quiz-dir-btn active" data-srs-dir="char-to-roma">看字母選讀音</button>
-        <button class="quiz-dir-btn" data-srs-dir="roma-to-char">看讀音選字母</button>
-      </div>
-      <div class="quiz-score">
-        <div class="score-cell"><div class="num" id="srs-due">0</div><div class="label">待複習</div></div>
-        <div class="score-cell correct"><div class="num" id="srs-correct">0</div><div class="label">本輪對</div></div>
-        <div class="score-cell wrong"><div class="num" id="srs-wrong">0</div><div class="label">本輪錯</div></div>
-      </div>
-      <div class="quiz-progress">
-        <span id="srs-progress-text">—</span>
-        <div class="progress-bar"><div class="progress-fill" id="srs-progress-fill"></div></div>
-      </div>
-      <div class="quiz-question">
-        <div class="quiz-prompt-label" id="srs-label">字母</div>
-        <div class="quiz-prompt" id="srs-prompt">—</div>
-      </div>
-      <div class="quiz-options" id="srs-options"></div>
-      <div class="quiz-result" id="srs-result">
-        <div class="quiz-result-feedback" id="srs-feedback"></div>
-        <div class="quiz-result-detail" id="srs-detail"></div>
-        <button class="quiz-next" id="srs-next">下一題 →</button>
-      </div>
-      <div class="srs-done" id="srs-done">
-        <div class="srs-done-icon">✓</div>
-        <div class="srs-done-title">今日複習完成</div>
-        <div class="srs-done-sub" id="srs-done-sub">下次複習：明天</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ WRITING VIEW ============ -->
-  <div class="view" id="view-write">
-    <div class="cat-tabs" id="write-cat-tabs"></div>
-    <div class="write-wrap">
-      <aside class="write-sidebar">
-        <div class="write-letter-list" id="write-list"></div>
-      </aside>
-      <main class="write-canvas-wrap">
-        <div class="quiz-prompt-label" id="write-cat-label">CONSONANT</div>
-        <div class="write-guide-wrap">
-          <div class="write-display" id="write-display">ก</div>
-        </div>
-        <div class="write-info">
-          <div class="write-info-cell">字母名稱<span class="v" id="wi-name">—</span></div>
-          <div class="write-info-cell">羅馬拼音<span class="v" id="wi-roma">—</span></div>
-          <div class="write-info-cell">中文音<span class="v" id="wi-zh">—</span></div>
-        </div>
-        <div class="write-actions">
-          <button class="write-action-btn" id="write-play">▶ 聽發音</button>
-          <button class="write-action-btn" id="write-prev">← 上一個</button>
-          <button class="write-action-btn" id="write-next">下一個 →</button>
-        </div>
-        <div class="write-tip" id="write-tip">提示：依照泰文書寫慣例，先從圓圈開始，再畫主體。</div>
-      </main>
-    </div>
+  <!-- ============ COMBO VIEW ============ -->
+  <div class="view" id="view-combo">
+    <div class="combo-consonants" id="combo-consonants"></div>
+    <div class="combo-grid" id="combo-grid"></div>
+    <div class="combo-word" id="combo-word"></div>
   </div>
 
 </div>

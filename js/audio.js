@@ -7,6 +7,12 @@ export function speak(c, kind = 0) {
   stopSpeaking();
   const src = SPEECH[c]?.[kind];
   if (!src) return null;
+  return playFile(src);
+}
+
+// src is a path under audio/
+export function playFile(src) {
+  stopSpeaking();
   current = new Audio("audio/" + src);
   current.play().catch(() => {});
   return current;

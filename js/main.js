@@ -1,17 +1,9 @@
-import { CONSONANTS as RAW_CONSONANTS } from "../data/consonants.js";
-import { VOWELS     as RAW_VOWELS     } from "../data/vowels.js";
-import { TONES      as RAW_TONES      } from "../data/tones.js";
+import { CONSONANTS } from "../data/consonants.js";
+import { VOWELS }     from "../data/vowels.js";
+import { TONES }      from "../data/tones.js";
 import { renderBrowse } from "./browse.js";
 import { initModal }    from "./modal.js";
-import { initQuiz }     from "./quiz.js";
-import { renderWrite, initWrite } from "./write.js";
-import { loadState }    from "./state.js";
-import { initSrsMode }  from "./srs-mode.js";
-
-// 給每個 letter 帶上 _type，SRS 用 `${type}:${c}` 當 progress key 區分跨類別同字
-const CONSONANTS = RAW_CONSONANTS.map(l => ({ ...l, _type: "consonant" }));
-const VOWELS     = RAW_VOWELS.map(l => ({ ...l, _type: "vowel" }));
-const TONES      = RAW_TONES.map(l => ({ ...l, _type: "tone" }));
+import { renderCombo }  from "./combo.js";
 
 const CATEGORIES = [
   { id: "consonant", label: "子音",   count: CONSONANTS.length, data: CONSONANTS },
@@ -22,20 +14,13 @@ const CATEGORIES = [
 const state = {
   mode: "browse",
   category: "consonant",
-  toneFilter: "all",
-  quizDir: "char-to-roma",
-  quizTotal: 0,
-  quizCorrect: 0,
-  quizWrong: 0,
-  quizCurrent: null,
-  writeIndex: 0
+  toneFilter: "all"
 };
 
-loadState();
+// 測驗／書寫／今日複習已移除，清掉它們留下的複習紀錄
+try { localStorage.removeItem("thai-letters-v1"); } catch {}
+
 initModal();
-const quiz = initQuiz(CONSONANTS, VOWELS, state);
-initWrite(CATEGORIES, state);
-const srs = initSrsMode(CONSONANTS, VOWELS);
 
 document.querySelectorAll(".mode-btn").forEach(btn => {
   btn.onclick = () => {
@@ -46,14 +31,11 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
     document.getElementById("view-" + state.mode).classList.add("active");
 
     if (state.mode === "browse") renderBrowse(CATEGORIES, state);
-    if (state.mode === "quiz" && state.quizTotal === 0) quiz.newQuestion();
-    if (state.mode === "write") renderWrite(CATEGORIES, state);
-    if (state.mode === "srs") srs.enter();
+    if (state.mode === "combo") renderCombo();
   };
 });
 
 renderBrowse(CATEGORIES, state);
-srs.refreshBadge();   // 初始即顯示「今日複習 (N)」徽章
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js");
