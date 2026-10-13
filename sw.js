@@ -1,4 +1,4 @@
-const CACHE = "thai-letters-v27";
+const CACHE = "thai-letters-v28";
 
 const PRECACHE = [
   "./",
@@ -50,6 +50,12 @@ self.addEventListener("fetch", e => {
   // Pronunciation clips go straight to the network: media range requests and Safari
   // playback break when a service worker answers them.
   if (e.request.url.includes("/audio/")) return;
+  // Pages go network-first so an expired Cloudflare Access session lands on the login
+  // page instead of a cached shell whose audio silently fails; cache only when offline.
+  if (e.request.mode === "navigate") {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
   );
