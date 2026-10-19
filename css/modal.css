@@ -26,7 +26,11 @@
 .stroke-count { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--gold); letter-spacing: .1em; }
 .stroke-canvas { display: block; width: min(100%, 280px); height: 220px; margin: 5px auto 0; overflow: visible; }
 .stroke-guide { fill: none; stroke: var(--text); stroke-opacity: .07; stroke-width: 1; stroke-dasharray: 2 6; }
-.stroke-ink { fill: none; stroke: var(--text); stroke-linecap: round; stroke-linejoin: round; }
+.stroke-ink { fill: none; stroke: var(--text); stroke-linecap: round; stroke-linejoin: round; transition: opacity .3s ease; }
+.stroke-final { fill: var(--text); opacity: 0; transition: opacity .3s ease; }
+/* writing done: the single lines dissolve into Mali */
+.stroke-written[data-complete] .stroke-ink { opacity: 0; }
+.stroke-written[data-complete] .stroke-final { opacity: 1; }
 .stroke-glow { filter: drop-shadow(0 0 5px #C4A574CC) drop-shadow(0 0 16px #C4A57480); }
 .stroke-placeholder { fill: none; stroke: var(--text); stroke-opacity: .25; stroke-width: 2; stroke-dasharray: 2 8; stroke-linecap: round; }
 .stroke-note { color: var(--text-dim); font-size: 11px; margin: -8px 0 12px; }

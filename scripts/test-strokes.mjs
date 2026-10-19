@@ -6,7 +6,7 @@ const root = new URL('../', import.meta.url);
 async function data(file) {
   return import('data:text/javascript;base64,' + Buffer.from(await readFile(new URL(file, root), 'utf8')).toString('base64'));
 }
-const { FITTED_GUIDES } = await data('data/stroke-guides-fitted.js');
+const { MONO_GUIDES, MONO_WIDTH } = await data('data/stroke-mono.js');
 const { GLYPHS } = await data('data/stroke-glyphs.js');
 const { CONSONANTS } = await data('data/consonants.js');
 const { VOWELS } = await data('data/vowels.js');
@@ -37,7 +37,7 @@ class Element {
 }
 const letter = new Element(), modal = new Element();
 const context = {
-  guides: FITTED_GUIDES, GLYPHS,
+  guides: MONO_GUIDES, MONO_WIDTH, GLYPHS,
   document: { getElementById: id => id === 'm-char' ? letter : modal, createElement: () => new Element() },
   matchMedia: () => ({ matches: reduced }),
   requestAnimationFrame: fn => { frames.set(++nextFrame, fn); return nextFrame; },
@@ -61,14 +61,9 @@ for (const { c } of items) {
     assert.ok(p.w > 0 && p.h > 0 && p.x >= 0 && p.y >= 0 && p.x+p.w <= 280 && p.y+p.h <= 250, c + ' canvas bounds');
     if (p.c === '◌') continue;
     assert.equal(GLYPHS[p.c].bounds.length, 4);
-    assert.equal(FITTED_GUIDES[p.c].length, strokeCount(p.c), p.c + ' stroke count');
-    for (const segs of FITTED_GUIDES[p.c]) {
-      assert.ok(segs.length > 0, p.c + ' stroke has segments');
-      for (const [guide, width] of segs) {
-        assert.match(guide, /^M/);
-        assert.equal(guide.replace(/[MLHVCSQTAZmlhvcsqtaz\d\s.,+eE-]/g, ''), '', p.c + ' SVG tokens');
-        assert.ok(width > 0 && width < GLYPHS[p.c].bounds[3]-GLYPHS[p.c].bounds[1], p.c + ' segment width');
-      }
+    assert.equal(MONO_GUIDES[p.c].length, strokeCount(p.c), p.c + ' stroke count');
+    for (const guide of MONO_GUIDES[p.c]) {
+      assert.match(guide, /^M[\d.]+ [\d.-]+(L[\d.-]+ [\d.-]+)+$/, p.c + ' route is a polyline');
     }
   }
   showStrokeSample(c);
@@ -79,18 +74,17 @@ for (const { c } of items) {
   assert.equal(panel.written.length, parts.filter(p => p.c !== '◌').length, c + ' completed-outline groups exist');
   assert.ok(panel.inks.every(p => p.style.visibility === 'hidden'), c + ' hidden before start');
   assert.ok(!panel.html.includes('mask'), c+' strokes are drawn, not revealed through masks');
-  assert.equal((panel.html.match(/<clipPath id="stroke-clip-\d+"><path transform="translate\([^)]*\) scale\([^)]*\)" d="M/g) || []).length, panel.written.length, c+' one Mali outline clip per glyph');
-  assert.equal((panel.html.match(/clip-path="url\(#stroke-clip-\d+\)"/g) || []).length, panel.written.length, c+' lines clipped to the outline');
+  assert.ok(!panel.html.includes('clip'), c+' single lines are not clipped');
+  assert.equal(panel.inks.length, expected, c+' one line per stroke');
+  assert.equal((panel.html.match(/<path class="stroke-final" transform="translate\([^)]*\) scale\([^)]*\)" d="M/g) || []).length, panel.written.length, c+' one Mali glyph to dissolve into per glyph');
   assert.ok(!panel.html.includes('non-scaling-stroke'), c+' dash and pen share canvas coordinates');
   complete();
   assert.ok(panel.inks.every(p => p.style.visibility === 'visible'), c + ' every segment drawn at completion');
-  assert.ok(panel.written.every(p => p.attrs['data-complete'] === 'true'), c + ' exact completed glyph');
+  assert.ok(panel.written.every(p => p.attrs['data-complete'] === 'true'), c + ' dissolves into Mali when done');
 }
-// One stroke is a chain of segments; the loop wall is thinner than the main stem.
+// The line keeps one width, MONO_WIDTH font units scaled to the card.
 showStrokeSample('ข');
-const segs = panel.inks.filter(p => p.dataset.stroke === '0');
-assert.ok(segs.length > 1, 'loop head uses its own width segment');
-assert.ok(new Set(segs.map(p => p.style.strokeWidth)).size > 1, 'loop wall thinner than main stem');
+assert.ok(Math.abs(panel.inks[0].style.strokeWidth - MONO_WIDTH*layoutStrokes('ข')[0].h/(GLYPHS['ข'].bounds[3]-GLYPHS['ข'].bounds[1])) < 1e-9, 'single-line width');
 stopStrokeSample();
 for (const [char, expected] of [['เ◌ีย','เ◌ีย'], ['เ◌ือ','เ◌ือ'], ['◌ำ','◌ํา'], ['◌ัว','◌ัว'], ['เ◌าะ','เ◌าะ']]) {
   assert.equal(layoutStrokes(char).map(p => p.c).join(''), expected, char + ' compound component order');
@@ -118,5 +112,5 @@ reduced = false;
 showStrokeSample('ก'); showStrokeSample('missing');
 assert.equal(frames.size,0); assert.equal(panel.hidden,true); assert.equal(letter.hidden,false);
 assert.equal(modal.attrs['has-stroke-sample'],false);
-console.log('PASS: 75 entries; finite canvas bounds; guide tokens; stroke counts; segment widths; segment chaining; outline clip; compound component order; completion; 2-second sine easing; replay; slow; reduced motion; close/switch cancellation.');
+console.log('PASS: 75 entries; finite canvas bounds; guide tokens; stroke counts; single-line width; no clipping; Mali dissolve layer; compound component order; completion; 2-second sine easing; replay; slow; reduced motion; close/switch cancellation.');
 console.log('LIMIT: stubbed SVG lengths do not validate rendered path alignment, visual glow, or linguistic stroke-order correctness.');

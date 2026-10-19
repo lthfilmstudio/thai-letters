@@ -1,4 +1,4 @@
-import { FITTED_GUIDES as guides } from '../data/stroke-guides-fitted.js';
+import { MONO_GUIDES as guides, MONO_WIDTH } from '../data/stroke-mono.js';
 import { GLYPHS } from '../data/stroke-glyphs.js';
 let frame = 0, panel, slow = false, strokes = [];
 export function stopStrokeSample() { cancelAnimationFrame(frame); frame = 0; }
@@ -38,27 +38,17 @@ export function layoutStrokes(char) {
   return parts.map(c => ({ ...c, x: 140+(c.x-(left+right)/2)*scale, y: 126+(c.y-(top+bottom)/2)*scale, w: c.w*scale, h: c.h*scale }));
 }
 
-// Each stroke is drawn as round-capped lines growing along its route and stays as
-// the finished letter (no swap to the font, so nothing jumps at the end). A stroke is
-// a chain of segments with Mali's local width; the pen runs through them without a
-// lift. Lines are a little wider than the ink and clipped to Mali's outline, so the
-// finished letter is exactly Mali, loops and joins included.
+// Each stroke is one round-capped single line growing along its route (data/stroke-mono.js:
+// smoothed, loop heads are true circles). Nothing is clipped or revealed, so loops and joins
+// stay clean while writing; when the last stroke is done the lines dissolve into Mali.
 function setProgress(s, eased) {
-  let left = s.length*eased;
-  for (const seg of s.segs) {
-    const drawn = Math.max(0, Math.min(seg.length, left));
-    seg.path.style.strokeDasharray = drawn+' '+seg.length;
-    seg.path.style.visibility = drawn > 0 ? 'visible' : 'hidden';
-    left -= seg.length;
-  }
+  const drawn = s.length*eased;
+  s.path.style.strokeDasharray = drawn+' '+s.length;
+  s.path.style.visibility = drawn > 0 ? 'visible' : 'hidden';
 }
 
 function pointAt(s, eased) {
-  let left = s.length*eased;
-  for (const seg of s.segs) {
-    if (left <= seg.length || seg === s.segs.at(-1)) return seg.path.getPointAtLength(Math.min(left, seg.length));
-    left -= seg.length;
-  }
+  return s.path.getPointAtLength(s.length*eased);
 }
 
 function play(manual = false) {
@@ -122,18 +112,16 @@ export function showStrokeSample(char) {
   panel.hidden = !active; letter.hidden = active;
   document.getElementById('modal').classList.toggle('has-stroke-sample',active);
   if (!active) return;
-  let body = '', strokeIndex = 0, clip = 0;
+  let body = '', strokeIndex = 0;
   for (const c of parts) {
     if (c.c === '◌') {
       body += '<ellipse class="stroke-placeholder" cx="'+(c.x+c.w/2)+'" cy="'+(c.y+c.h/2)+'" rx="'+c.w/2+'" ry="'+c.h/2+'"/>';
       continue;
     }
-    const bounds = GLYPHS[c.c].bounds, fontScale = c.h/(bounds[3]-bounds[1]), id = 'stroke-clip-'+clip++;
-    body += '<clipPath id="'+id+'"><path transform="translate('+c.x+' '+c.y+') scale('+c.w/100+' '+c.h/100+')" d="'+GLYPHS[c.c].d+'"/></clipPath>'+
-      '<g class="stroke-glow stroke-written"><g clip-path="url(#'+id+')">'+guides[c.c].map(segs => {
-      const stroke = strokeIndex++;
-      return segs.map(([d, w]) => '<path class="stroke-ink" data-stroke="'+stroke+'" style="stroke-width:'+w*fontScale+'" d="'+placeGuide(d,c)+'"/>').join('');
-    }).join('')+'</g></g>';
+    const bounds = GLYPHS[c.c].bounds, width = MONO_WIDTH*c.h/(bounds[3]-bounds[1]);
+    body += '<g class="stroke-glow stroke-written">'+guides[c.c].map(d =>
+      '<path class="stroke-ink" data-stroke="'+(strokeIndex++)+'" style="stroke-width:'+width+'" d="'+placeGuide(d,c)+'"/>').join('')+
+      '<path class="stroke-final" transform="translate('+c.x+' '+c.y+') scale('+c.w/100+' '+c.h/100+')" d="'+GLYPHS[c.c].d+'"/></g>';
   }
   panel.innerHTML = '<div class="stroke-heading"><span>筆順</span><span class="stroke-count"></span></div>'+
     '<svg class="stroke-canvas" viewBox="0 0 280 250" role="img" aria-label="'+char+' 筆順動畫"><defs><filter id="stroke-tip-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="7"/></filter></defs>'+
@@ -141,13 +129,7 @@ export function showStrokeSample(char) {
     '<g class="stroke-tip"><circle r="19" class="stroke-halo" filter="url(#stroke-tip-glow)"/><circle r="6" class="stroke-point"/></g></svg>'+
     '<p class="stroke-status" aria-live="polite"></p><div class="stroke-controls"><button type="button" class="stroke-replay">↺ 重播</button><button type="button" class="stroke-speed" aria-pressed="'+slow+'">慢速</button></div>'+
     (char.includes('◌') ? '<p class="stroke-note">虛線圓圈是子音位置，不用描寫</p>' : '');
-  strokes = [];
-  for (const path of panel.querySelectorAll('.stroke-ink')) {
-    const i = Number(path.dataset.stroke);
-    const length = path.getTotalLength();
-    (strokes[i] ??= {segs:[]}).segs.push({path,length});
-  }
-  for (const s of strokes) s.length = s.segs.reduce((sum, seg) => sum+seg.length, 0);
+  strokes = [...panel.querySelectorAll('.stroke-ink')].map(path => ({ path, length: path.getTotalLength() }));
   panel.querySelector('.stroke-replay').onclick = () => play(true);
   panel.querySelector('.stroke-speed').onclick = event => {
     slow = !slow;
