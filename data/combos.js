@@ -1,19 +1,24 @@
-// 拼字盤：老師目前教到的中字音 × 母音（還沒教聲調符號）。
+// 拼字盤：老師目前教到的中字音、高字音 × 母音（還沒教聲調符號）。
 // 讀音照老師投影片寫法（ḅ ḍ、短 ะ å、ˇ 低聲調、ā 長音）；投影片還沒出現的母音是照同一套規則推的。
+// 聲調：短母音（死音節）一律 ˇ 低聲調；長母音中字音不標、高字音加 ˊ 上聲（老師手畫的「/」）。
 // 音檔是 Aom 念的 audio/aom/<音節>.mp3（scripts/gen-aom-audio.py 產生）。
 export const COMBO_CONSONANTS = [
   { c: "ก", roma: "g" }, { c: "จ", roma: "j" }, { c: "ด", roma: "ḍ" },
   { c: "ต", roma: "d" }, { c: "ฎ", roma: "ḍ" }, { c: "ฏ", roma: "d" },
-  { c: "บ", roma: "ḅ" }, { c: "ป", roma: "b" }, { c: "อ", roma: "" }
+  { c: "บ", roma: "ḅ" }, { c: "ป", roma: "b" }, { c: "อ", roma: "" },
+  { c: "ข", roma: "k", high: true }, { c: "ฐ", roma: "t", high: true },
+  { c: "ถ", roma: "t", high: true }, { c: "ห", roma: "h", high: true }
 ];
 
 export const COMBO_VOWELS = [
-  { v: "◌ะ", roma: "åˇ" }, { v: "◌า", roma: "ā" },
-  { v: "◌ิ", roma: "iˇ" }, { v: "◌ี", roma: "ī" },
-  { v: "เ◌ะ", roma: "eˇ" }, { v: "เ◌", roma: "ē" },
-  { v: "◌อ", roma: "ɔ̄" }, { v: "เ◌าะ", roma: "ɔˇ" },
+  { v: "◌ะ", roma: "å", dead: true }, { v: "◌า", roma: "ā" },
+  { v: "◌ิ", roma: "i", dead: true }, { v: "◌ี", roma: "ī" },
+  { v: "เ◌ะ", roma: "e", dead: true }, { v: "เ◌", roma: "ē" },
+  { v: "◌อ", roma: "ɔ̄" }, { v: "เ◌าะ", roma: "ɔ", dead: true },
   { v: "ไ◌", roma: "ai" }, { v: "ใ◌", roma: "ai" },
-  { v: "เ◌า", roma: "ao" }, { v: "◌ำ", roma: "am" }
+  { v: "เ◌า", roma: "ao" }, { v: "◌ำ", roma: "am" },
+  { v: "◌ุ", roma: "u", dead: true }, { v: "◌ู", roma: "ū" },
+  { v: "โ◌ะ", roma: "o", dead: true }, { v: "โ◌", roma: "ō" }
 ];
 
 // 本身就是常用單字的音節（查證來源見 docs/combo-words.md）
@@ -54,17 +59,54 @@ export const COMBO_WORDS = {
   "อา": "叔叔／姑姑",
   "ไอ": "咳嗽",
   "เอา": "拿／要",
-  "อำ": "唬弄"
+  "อำ": "唬弄",
+  "กุ": "捏造",
+  "โก": "大哥",
+  "จุ": "容納／很多",
+  "ดุ": "兇／責罵",
+  "ดู": "看",
+  "ตุ": "發臭",
+  "โต": "大／長大",
+  "บุ": "襯裡／包覆",
+  "โบ": "蝴蝶結",
+  "ปุ": "噗（擬聲）／修補",
+  "ปู": "螃蟹／鋪",
+  "โปะ": "糊上／加碼",
+  "โป": "骰寶／鼓起",
+  "โอ": "哦／小碗",
+  "ขา": "腿",
+  "เข": "斜視",
+  "ขอ": "請求／鉤子",
+  "ไข": "脂肪／解開",
+  "เขา": "他／山",
+  "ขำ": "好笑",
+  "โข": "很／非常",
+  "ถะ": "中式佛塔",
+  "ถา": "俯衝／撲向",
+  "เถาะ": "兔年",
+  "ไถ": "犁田／敲詐",
+  "เถา": "藤蔓",
+  "ถู": "擦",
+  "โถ": "哎呀／有蓋罐",
+  "หะ": "齊力吆喝聲",
+  "หา": "找",
+  "เห": "偏向",
+  "หอ": "宿舍／樓閣",
+  "เหาะ": "騰空飛行",
+  "ไห": "罈子",
+  "เหา": "頭蝨",
+  "หู": "耳朵／把手"
 };
 
 // 發音完全相同、共用音檔（Aom 念單獨的 ใก 會念錯）
-const SAME_AUDIO = { "ใก": "ไก" };
+const SAME_AUDIO = { "ใก": "ไก", "ใข": "ไข", "ใฐ": "ไฐ", "ใถ": "ไถ", "ให": "ไห" };
 
 export function comboRow(c) {
   const con = COMBO_CONSONANTS.find(x => x.c === c);
-  return COMBO_VOWELS.map(({ v, roma }) => {
+  return COMBO_VOWELS.map(({ v, roma, dead }) => {
     const syl = v.replace("◌", c);
-    return { syl, roma: con.roma + roma, audio: "aom/" + (SAME_AUDIO[syl] || syl) + ".mp3", zh: COMBO_WORDS[syl] || "" };
+    const tone = dead ? "ˇ" : con.high ? "ˊ" : "";
+    return { syl, roma: con.roma + roma + tone, audio: "aom/" + (SAME_AUDIO[syl] || syl) + ".mp3", zh: COMBO_WORDS[syl] || "" };
   });
 }
 
