@@ -101,6 +101,12 @@ export const COMBO_WORDS = {
 // 發音完全相同、共用音檔（Aom 念單獨的 ใก 會念錯）
 const SAME_AUDIO = { "ใก": "ไก", "ใข": "ไข", "ใถ": "ไถ", "ให": "ไห" };
 
+// Aom 單念聲調一直念錯的音節：點了改念含這個音節的整個單字（查證來源見 docs/combo-words.md）
+const CARRIER_WORDS = {
+  "หะ": { word: "สหรัฐ", zh: "美國／聯邦（สะ-หะ-รัด）" },
+  "โข": { word: "มากโข", zh: "很多" }
+};
+
 export function comboRow(c) {
   const con = COMBO_CONSONANTS.find(x => x.c === c);
   return COMBO_VOWELS.map(({ v, roma, dead }) => {
@@ -109,7 +115,9 @@ export function comboRow(c) {
     // ฐ 跟 ถ 同音（送氣 t、高字音），Aom 念罕用的 ฐ 常念錯，整排用 ถ 的音檔
     const asThor = syl.replace("ฐ", "ถ");
     const spoken = SAME_AUDIO[asThor] || asThor;
-    return { syl, roma: con.roma + roma + tone, audio: "aom/" + spoken + ".mp3", zh: COMBO_WORDS[syl] || "" };
+    const carrier = CARRIER_WORDS[spoken];
+    return { syl, roma: con.roma + roma + tone, audio: "aom/" + (carrier ? carrier.word : spoken) + ".mp3",
+             zh: COMBO_WORDS[syl] || "", carrier };
   });
 }
 

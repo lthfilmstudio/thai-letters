@@ -84,3 +84,14 @@
 | ไห | 罈子 | https://dict.longdo.com/search/ไห |
 | เหา | 頭蝨 | https://dict.longdo.com/search/เหา |
 | หู | 耳朵／把手 | https://dict.longdo.com/search/หู |
+
+## 改念整個單字的格子（2026-10-20）
+
+Aom 單念聲調試十幾輪都不對，點這格改念含這個音節的單字（`CARRIER_WORDS`）。
+
+| 音節 | 念的單字 | 中文 | 來源 |
+|---|---|---|---|
+| หะ | สหรัฐ（สะ-หะ-รัด，ห 帶隱藏短 a） | 美國／聯邦 | https://dict.longdo.com/search/สหรัฐ （Volubilis [saharat]；聲調未標，依規則為低聲） |
+| โข | มากโข | 很多 | https://dict.longdo.com/search/โข （Lexitron：Syn. มาก, มากโข） |
+
+หี 找不到不粗俗、音節完全相同的單字，維持原音檔。

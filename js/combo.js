@@ -28,7 +28,10 @@ export function renderCombo() {
       cell.classList.add("playing");
       const audio = playFile(item.audio);
       audio.onended = audio.onerror = () => cell.classList.remove("playing");
-      if (item.zh) {
+      if (item.carrier) {
+        word.innerHTML = `<span class="combo-word-thai">${item.carrier.word}</span><span class="combo-word-zh">${item.carrier.zh}</span>`;
+        word.classList.add("show");
+      } else if (item.zh) {
         word.innerHTML = `<span class="combo-word-thai">${item.syl}</span><span class="combo-word-zh">${item.zh}</span>`;
         word.classList.add("show");
       } else {
