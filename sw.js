@@ -1,4 +1,4 @@
-const CACHE = "thai-letters-v40";
+const CACHE = "thai-letters-v41";
 
 const PRECACHE = [
   "./",

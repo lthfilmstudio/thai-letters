@@ -52,12 +52,6 @@ function card(w) {
   const head = document.createElement("div");
   head.className = "word-head";
   head.append(th);
-  if (w.teacher) {
-    const tag = document.createElement("span");
-    tag.className = "word-tag";
-    tag.textContent = "老師教過";
-    head.append(tag);
-  }
 
   // 拆字：每個音節 = 子音 + 母音，點了念拼字盤那一格
   const parts = document.createElement("div");
