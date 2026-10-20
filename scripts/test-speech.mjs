@@ -18,6 +18,13 @@ assert.equal(new Set(combos.map(x => x.syl)).size, 208, '13 consonants x 16 vowe
 for (const { syl, audio } of combos) { assert.ok(!syl.includes('◌'), syl + ' is fully built'); if (audio) needed.add(audio); }
 assert.deepEqual(combos.filter(x => !x.audio).map(x => x.syl), ['โขะ', 'หะ', 'หี', 'โหะ'], 'only these combos are muted');
 for (const w of Object.keys(COMBO_WORDS)) assert.ok(combos.some(x => x.syl === w), w + ' is on the board');
+const { WORDS } = await load('data/words.js');
+for (const w of WORDS) {
+  assert.equal(w.syllables.join(''), w.th, w.th + ' syllables spell the word');
+  for (const s of w.syllables) assert.ok(combos.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
+  needed.add('aom/' + w.th + '.mp3');
+}
+assert.equal(new Set(WORDS.map(w => w.th)).size, WORDS.length, 'no duplicate words');
 for (const dir of ['book', 'aom']) {
   const files = new Set((await readdir(new URL(`audio/${dir}/`, root))).map(f => `${dir}/${f}`));
   for (const f of needed) if (f.startsWith(dir)) assert.ok(files.has(f), 'missing audio/' + f);

@@ -123,7 +123,7 @@ export function comboRow(c) {
     const spoken = SAME_AUDIO[asThor] || asThor;
     const carrier = CARRIER_WORDS[spoken];
     const audio = MUTED.has(spoken) ? null : "aom/" + (carrier ? carrier.word : spoken) + ".mp3";
-    return { syl, roma: con.roma + roma + tone, audio,
+    return { syl, c, v, roma: con.roma + roma + tone, audio,
              zh: COMBO_WORDS[syl] || "", carrier };
   });
 }

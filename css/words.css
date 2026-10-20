@@ -1,0 +1,105 @@
+/* ─── 單字 ─── */
+.combo-con.words-all { width: auto; padding: 0 14px; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
+
+.words-hide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -8px 0 20px;
+}
+.words-hide-label { font-size: 14px; color: var(--text-mute); margin-right: 4px; }
+.words-hide-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.words-hide-btn.active { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
+
+.words-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.word-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.25s ease;
+}
+.word-card.playing { border-color: var(--gold); }
+
+.word-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.word-tag {
+  font-size: 12px;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.word-th, .word-zh {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  border-radius: 6px;
+}
+.word-th { font-family: "Sarabun", sans-serif; font-size: 40px; font-weight: 500; line-height: 1.5; }
+.word-zh { font-size: 17px; color: var(--text-dim); align-self: flex-start; }
+
+/* 遮住：保留位置，點一下翻開 */
+.word-th.covered, .word-zh.covered {
+  color: transparent;
+  background: var(--card-flipped);
+  min-width: 96px;
+  position: relative;
+}
+.word-th.covered::after, .word-zh.covered::after {
+  content: "點一下翻開";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 13px;
+  color: var(--text-mute);
+}
+
+.word-parts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.word-part {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 10px 4px;
+  cursor: pointer;
+  color: var(--text);
+}
+.word-part:hover { border-color: var(--gold-dim); }
+.word-part:disabled { cursor: default; opacity: 0.7; }
+.wp-c, .wp-v { font-family: "Sarabun", sans-serif; font-size: 22px; line-height: 1.5; }
+.wp-c { color: var(--tone-high); }
+.wp-v { color: var(--tone-low); }
+.wp-plus { font-size: 13px; color: var(--text-mute); }
+.wp-roma { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--gold); margin-left: 4px; }
+
+@media (max-width: 760px) {
+  .words-list { grid-template-columns: 1fr; }
+  .word-th { font-size: 34px; }
+}

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="./css/browse.css" />
 <link rel="stylesheet" href="./css/modal.css" />
 <link rel="stylesheet" href="./css/combo.css" />
+<link rel="stylesheet" href="./css/words.css" />
 </head>
 <body>
 <div class="app">
@@ -41,6 +42,7 @@
   <div class="modes" role="tablist">
     <button class="mode-btn active" data-mode="browse">瀏覽</button>
     <button class="mode-btn" data-mode="combo">拼字盤</button>
+    <button class="mode-btn" data-mode="words">單字</button>
   </div>
 
   <!-- ============ BROWSE VIEW ============ -->
@@ -60,6 +62,18 @@
     <div class="combo-consonants" id="combo-consonants"></div>
     <div class="combo-grid" id="combo-grid"></div>
     <div class="combo-word" id="combo-word"></div>
+  </div>
+
+  <!-- ============ WORDS VIEW ============ -->
+  <div class="view" id="view-words">
+    <div class="combo-consonants" id="words-consonants"></div>
+    <div class="words-hide">
+      <span class="words-hide-label">遮住</span>
+      <button class="words-hide-btn active" data-hide="none">不遮</button>
+      <button class="words-hide-btn" data-hide="zh">中文</button>
+      <button class="words-hide-btn" data-hide="th">泰文</button>
+    </div>
+    <div class="words-list" id="words-list"></div>
   </div>
 
 </div>

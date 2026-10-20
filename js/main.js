@@ -4,6 +4,7 @@ import { TONES }      from "../data/tones.js";
 import { renderBrowse } from "./browse.js";
 import { initModal }    from "./modal.js";
 import { renderCombo }  from "./combo.js";
+import { renderWords }  from "./words.js";
 
 const CATEGORIES = [
   { id: "consonant", label: "子音",   count: CONSONANTS.length, data: CONSONANTS },
@@ -32,6 +33,7 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
 
     if (state.mode === "browse") renderBrowse(CATEGORIES, state);
     if (state.mode === "combo") renderCombo();
+    if (state.mode === "words") renderWords();
   };
 });
 
