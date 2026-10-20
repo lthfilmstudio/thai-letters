@@ -91,11 +91,10 @@ Aom 單念聲調試十幾輪都不對，點這格改念含這個音節的單字�
 
 | 音節 | 念的單字 | 中文 | 來源 |
 |---|---|---|---|
-| หะ | สหรัฐ（สะ-หะ-รัด，ห 帶隱藏短 a） | 美國／聯邦 | https://dict.longdo.com/search/สหรัฐ （Volubilis [saharat]；聲調未標，依規則為低聲） |
 | โข | มากโข | 很多 | https://dict.longdo.com/search/โข （Lexitron：Syn. มาก, มากโข） |
 | เหะ | เมาเหะ | 爛醉 | https://dict.longdo.com/search/เหะ （RI：เหะ 只用在 เมาเหะ；聲調依規則為低聲） |
 | เห | เหรัญญิก（เห-รัน-ยิก） | 出納 | https://dict.longdo.com/search/เหรัญญิก （Lexitron：treasurer；聲調依規則為上聲） |
 | ถู | ถูพื้น | 拖地 | https://dict.longdo.com/search/ถูพื้น （Lexitron；ฐู 共用） |
 | เข | ตาเข | 鬥雞眼 | https://dict.longdo.com/search/ตาเข （Lexitron、RI；老師投影片教過） |
 
-หี 找不到不粗俗、音節完全相同的單字；โหะ、โขะ 字典查無含這個音節的詞。三格維持原音檔。
+點了不出聲（`MUTED`，Nalin 拍板）：หี 找不到不粗俗的單字；โหะ、โขะ 字典查無含這個音節的詞；หะ 只找到 สหรัฐ，但字面上看不到 หะ（ห 帶隱藏短 a），會跟格子對不起來。

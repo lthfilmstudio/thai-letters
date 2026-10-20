@@ -25,9 +25,11 @@ export function renderCombo() {
     cell.innerHTML = `<span class="combo-syl">${item.syl}</span><span class="combo-roma">${item.roma}</span>`;
     cell.onclick = () => {
       grid.querySelectorAll(".combo-cell").forEach(b => b.classList.remove("playing"));
-      cell.classList.add("playing");
-      const audio = playFile(item.audio);
-      audio.onended = audio.onerror = () => cell.classList.remove("playing");
+      if (item.audio) {
+        cell.classList.add("playing");
+        const audio = playFile(item.audio);
+        audio.onended = audio.onerror = () => cell.classList.remove("playing");
+      }
       if (item.carrier) {
         word.innerHTML = `<span class="combo-word-thai">${item.carrier.word}</span><span class="combo-word-zh">${item.carrier.zh}</span>`;
         word.classList.add("show");

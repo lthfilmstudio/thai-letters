@@ -103,13 +103,15 @@ const SAME_AUDIO = { "ใก": "ไก", "ใข": "ไข", "ใถ": "ไถ",
 
 // Aom 單念聲調一直念錯的音節：點了改念含這個音節的整個單字（查證來源見 docs/combo-words.md）
 const CARRIER_WORDS = {
-  "หะ": { word: "สหรัฐ", zh: "美國／聯邦（สะ-หะ-รัด）" },
   "โข": { word: "มากโข", zh: "很多" },
   "เหะ": { word: "เมาเหะ", zh: "爛醉" },
   "เห": { word: "เหรัญญิก", zh: "出納（เห-รัน-ยิก）" },
   "ถู": { word: "ถูพื้น", zh: "拖地" },
   "เข": { word: "ตาเข", zh: "鬥雞眼" }
 };
+
+// 念不準、又找不到含這個音節的單字：點了不出聲（Nalin 2026-10-20 拍板）
+const MUTED = new Set(["หะ", "หี", "โหะ", "โขะ"]);
 
 export function comboRow(c) {
   const con = COMBO_CONSONANTS.find(x => x.c === c);
@@ -120,7 +122,8 @@ export function comboRow(c) {
     const asThor = syl.replace("ฐ", "ถ");
     const spoken = SAME_AUDIO[asThor] || asThor;
     const carrier = CARRIER_WORDS[spoken];
-    return { syl, roma: con.roma + roma + tone, audio: "aom/" + (carrier ? carrier.word : spoken) + ".mp3",
+    const audio = MUTED.has(spoken) ? null : "aom/" + (carrier ? carrier.word : spoken) + ".mp3";
+    return { syl, roma: con.roma + roma + tone, audio,
              zh: COMBO_WORDS[syl] || "", carrier };
   });
 }

@@ -15,7 +15,8 @@ assert.equal(Object.keys(SPEECH).length, items.length, 'no audio for unknown ite
 const { allCombos, COMBO_WORDS } = await load('data/combos.js');
 const combos = allCombos();
 assert.equal(new Set(combos.map(x => x.syl)).size, 208, '13 consonants x 16 vowels, all distinct');
-for (const { syl, audio } of combos) { assert.ok(!syl.includes('◌'), syl + ' is fully built'); needed.add(audio); }
+for (const { syl, audio } of combos) { assert.ok(!syl.includes('◌'), syl + ' is fully built'); if (audio) needed.add(audio); }
+assert.deepEqual(combos.filter(x => !x.audio).map(x => x.syl), ['โขะ', 'หะ', 'หี', 'โหะ'], 'only these combos are muted');
 for (const w of Object.keys(COMBO_WORDS)) assert.ok(combos.some(x => x.syl === w), w + ' is on the board');
 for (const dir of ['book', 'aom']) {
   const files = new Set((await readdir(new URL(`audio/${dir}/`, root))).map(f => `${dir}/${f}`));
