@@ -1,4 +1,4 @@
-// 拼字盤：老師目前教到的中字音、高字音 × 母音（還沒教聲調符號）。
+// 拼字盤：老師目前教到的中字音、高字音 × 母音（2026-10-27 加 ผ ฝ ส ศ ษ 與 ◌ึ ◌ือ แ◌ะ แ◌）（還沒教聲調符號）。
 // 讀音照老師投影片寫法（ḅ ḍ、短 ะ å、ˇ 低聲調、ā 長音）；投影片還沒出現的母音是照同一套規則推的。
 // 聲調：短母音（死音節）一律 ˇ 低聲調；長母音中字音不標、高字音加 ˊ 上聲（老師手畫的「/」）。
 // 音檔是 Aom 念的 audio/aom/<音節>.mp3（scripts/gen-aom-audio.py 產生）。
@@ -7,13 +7,18 @@ export const COMBO_CONSONANTS = [
   { c: "ต", roma: "d" }, { c: "ฎ", roma: "ḍ" }, { c: "ฏ", roma: "d" },
   { c: "บ", roma: "ḅ" }, { c: "ป", roma: "b" }, { c: "อ", roma: "" },
   { c: "ข", roma: "k", high: true }, { c: "ฐ", roma: "t", high: true },
-  { c: "ถ", roma: "t", high: true }, { c: "ห", roma: "h", high: true }
+  { c: "ถ", roma: "t", high: true }, { c: "ห", roma: "h", high: true },
+  { c: "ผ", roma: "p", high: true }, { c: "ฝ", roma: "f", high: true },
+  { c: "ส", roma: "s", high: true }, { c: "ศ", roma: "s", high: true },
+  { c: "ษ", roma: "s", high: true }
 ];
 
 export const COMBO_VOWELS = [
   { v: "◌ะ", roma: "å", dead: true }, { v: "◌า", roma: "ā" },
   { v: "◌ิ", roma: "i", dead: true }, { v: "◌ี", roma: "ī" },
+  { v: "◌ึ", roma: "ɯ", dead: true }, { v: "◌ือ", roma: "ɯ̄" },
   { v: "เ◌ะ", roma: "e", dead: true }, { v: "เ◌", roma: "ē" },
+  { v: "แ◌ะ", roma: "ɛ", dead: true }, { v: "แ◌", roma: "ɛ̄" },
   { v: "◌อ", roma: "ɔ̄" }, { v: "เ◌าะ", roma: "ɔ", dead: true },
   { v: "ไ◌", roma: "ai" }, { v: "ใ◌", roma: "ai" },
   { v: "เ◌า", roma: "ao" }, { v: "◌ำ", roma: "am" },
@@ -95,7 +100,36 @@ export const COMBO_WORDS = {
   "เหาะ": "騰空飛行",
   "ไห": "罈子",
   "เหา": "頭蝨",
-  "หู": "耳朵／把手"
+  "หู": "耳朵／把手",
+  "ผา": "懸崖",
+  "ผี": "鬼",
+  "เผาะ": "硬皮地星（菇）",
+  "เผา": "烤／燒",
+  "ผุ": "蛀／腐朽",
+  "โผ": "撲向",
+  "ฝา": "蓋子",
+  "ฝี": "膿包",
+  "ไฝ": "痣",
+  "สิ": "吧（語尾，催促）",
+  "สี": "顏色",
+  "เสาะ": "尋找",
+  "ไส": "刨（木頭）",
+  "ใส": "清澈／透明",
+  "เสา": "柱子",
+  "อึ": "大便",
+  "หึ": "哼",
+  "อือ": "嗯（應聲）",
+  "ถือ": "拿／提",
+  "หือ": "嗯？（疑問）",
+  "แกะ": "綿羊／拆開",
+  "แก": "你／他（對熟人）",
+  "แตะ": "觸碰",
+  "แบะ": "掰開",
+  "แปะ": "貼",
+  "แหะ": "嘿嘿（แหะ ๆ）",
+  "แบ": "攤開（手掌）",
+  "แถ": "斜飛／硬拗",
+  "แห": "魚網"
 };
 
 // 發音完全相同、共用音檔（Aom 念單獨的 ใก 會念錯）
@@ -107,7 +141,8 @@ const CARRIER_WORDS = {
   "เหะ": { word: "เมาเหะ", zh: "爛醉" },
   "เห": { word: "เหรัญญิก", zh: "出納（เห-รัน-ยิก）" },
   "ถู": { word: "ถูพื้น", zh: "拖地" },
-  "เข": { word: "ตาเข", zh: "鬥雞眼" }
+  "เข": { word: "ตาเข", zh: "鬥雞眼" },
+  "แห": { word: "ถือแห", zh: "提著魚網" }
 };
 
 // 念不準、又找不到含這個音節的單字：點了不出聲（Nalin 2026-10-20 拍板）
@@ -118,8 +153,8 @@ export function comboRow(c) {
   return COMBO_VOWELS.map(({ v, roma, dead }) => {
     const syl = v.replace("◌", c);
     const tone = dead ? "ˇ" : con.high ? "ˊ" : "";
-    // ฐ 跟 ถ 同音（送氣 t、高字音），Aom 念罕用的 ฐ 常念錯，整排用 ถ 的音檔
-    const asThor = syl.replace("ฐ", "ถ");
+    // ฐ 跟 ถ 同音（送氣 t、高字音），Aom 念罕用的 ฐ 常念錯，整排用 ถ 的音檔；ศ ษ 同理用 ส
+    const asThor = syl.replace("ฐ", "ถ").replace(/[ศษ]/, "ส");
     const spoken = SAME_AUDIO[asThor] || asThor;
     const carrier = CARRIER_WORDS[spoken];
     const audio = MUTED.has(spoken) ? null : "aom/" + (carrier ? carrier.word : spoken) + ".mp3";
