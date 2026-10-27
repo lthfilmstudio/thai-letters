@@ -152,3 +152,13 @@
 - 播放器 `js/stroke-sample.js`：每筆一條固定粗細的圓頭線，不裁切；寫完 `data-complete` 讓線淡出、Mali 字形淡入（`css/modal.css`，0.3 秒）。快取 v33。
 
 驗證：`node scripts/test-strokes.mjs` 通過（改成檢查單線、無裁切、每字有 Mali 溶入層）；Playwright 本機 75 張卡全部有路線與 Mali 層、無錯誤；อ 寫到一半與完成截圖確認。限制：單線與 Mali 形狀不同，溶解那 0.3 秒會短暫看到兩層。
+
+## 對照 Level Up Your Thai 筆順影片（Claude Code，2026-10-27）
+
+- 來源：Nalin 指定的 YouTube 頻道 https://www.youtube.com/@levelupyourthai1758/videos ，44 個子音各一支（ณ 有兩支重複），沒有母音。每支取紅色虛線箭頭最完整的一格，跟本站路線逐字比對起筆、方向、筆數、字頭繞向（字頭繞向另用路線資料算順／逆時針，不靠肉眼）。
+- 39 個子音一致。改了 5 個（`data/stroke-guides-fitted.js`，重跑 `build-stroke-mono.py`）：
+  - ส、ศ 第 2 筆：改成從肩膀往右上撇到筆尖（原本由筆尖往下）。
+  - อ、ฮ 字頭：改成逆時針（沿底往右、右邊上、上方往左、左邊下來接直筆）。
+  - ญ 第 2 筆尾巴小圈：改成從右下起、逆時針繞，再往右接尾巴。
+- 同次修正：`build-stroke-mono.py` 圈頭吸正圓只限路線本來就近圓（偏差 ≤ 0.3 半徑），◌ึ 圓頂不再被拉成正圓。快取 v43。
+- 限制：影片字型是粗黑體，跟 Mali 字形不同；起筆點只比到「在字頭哪一側」，沒有逐點對齊。母音、聲調符號沒有影片可對。
