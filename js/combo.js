@@ -1,9 +1,13 @@
 import { COMBO_CONSONANTS, comboRow } from "../data/combos.js";
 import { playFile } from "./audio.js";
+import { startQuick, stopQuick } from "./quick.js";
 
 let current = COMBO_CONSONANTS[0].c;
+let hideRoma = false;
 
 export function renderCombo() {
+  stopQuick();
+
   const picker = document.getElementById("combo-consonants");
   picker.innerHTML = "";
   COMBO_CONSONANTS.forEach(({ c }) => {
@@ -14,10 +18,19 @@ export function renderCombo() {
     picker.appendChild(btn);
   });
 
+  document.querySelectorAll(".roma-btn").forEach(btn => {
+    btn.classList.toggle("active", (btn.dataset.roma === "hide") === hideRoma);
+    btn.onclick = () => { hideRoma = btn.dataset.roma === "hide"; renderCombo(); };
+  });
+  document.querySelectorAll(".quick-btn").forEach(btn => {
+    btn.onclick = () => startQuick(btn.dataset.quick, current, renderCombo);
+  });
+
   const word = document.getElementById("combo-word");
   word.classList.remove("show");
 
   const grid = document.getElementById("combo-grid");
+  grid.classList.toggle("hide-roma", hideRoma);
   grid.innerHTML = "";
   comboRow(current).forEach(item => {
     const cell = document.createElement("button");

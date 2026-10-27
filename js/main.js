@@ -5,6 +5,7 @@ import { renderBrowse } from "./browse.js";
 import { initModal }    from "./modal.js";
 import { renderCombo }  from "./combo.js";
 import { renderWords }  from "./words.js";
+import { stopSpeaking } from "./audio.js";
 
 const CATEGORIES = [
   { id: "consonant", label: "子音",   count: CONSONANTS.length, data: CONSONANTS },
@@ -28,6 +29,7 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
     document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     state.mode = btn.dataset.mode;
+    stopSpeaking();
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     document.getElementById("view-" + state.mode).classList.add("active");
 

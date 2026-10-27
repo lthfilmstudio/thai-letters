@@ -87,3 +87,7 @@
   .combo-syl { font-size: 36px; }
   .combo-con { width: calc((100% - 32px) / 5); }
 }
+
+.combo-tools { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: -8px; }
+.combo-tools .words-hide { margin: 0 0 16px; flex-wrap: wrap; }
+.combo-grid.hide-roma .combo-roma { visibility: hidden; }

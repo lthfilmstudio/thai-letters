@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="./css/modal.css" />
 <link rel="stylesheet" href="./css/combo.css" />
 <link rel="stylesheet" href="./css/words.css" />
+<link rel="stylesheet" href="./css/quick.css" />
 </head>
 <body>
 <div class="app">
@@ -59,9 +60,25 @@
 
   <!-- ============ COMBO VIEW ============ -->
   <div class="view" id="view-combo">
-    <div class="combo-consonants" id="combo-consonants"></div>
-    <div class="combo-grid" id="combo-grid"></div>
-    <div class="combo-word" id="combo-word"></div>
+    <div class="combo-board" id="combo-board">
+      <div class="combo-consonants" id="combo-consonants"></div>
+      <div class="combo-tools">
+        <div class="words-hide">
+          <span class="words-hide-label">拼音</span>
+          <button class="words-hide-btn roma-btn active" data-roma="show">顯示</button>
+          <button class="words-hide-btn roma-btn" data-roma="hide">遮住</button>
+        </div>
+        <div class="words-hide">
+          <span class="words-hide-label">看字快讀</span>
+          <button class="words-hide-btn quick-btn" data-quick="row">這排照順序</button>
+          <button class="words-hide-btn quick-btn" data-quick="row-shuffle">這排打亂</button>
+          <button class="words-hide-btn quick-btn" data-quick="mix">混合 12 題</button>
+        </div>
+      </div>
+      <div class="combo-grid" id="combo-grid"></div>
+      <div class="combo-word" id="combo-word"></div>
+    </div>
+    <div class="quick" id="quick" hidden></div>
   </div>
 
   <!-- ============ WORDS VIEW ============ -->

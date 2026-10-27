@@ -13,9 +13,10 @@ export function speak(c, kind = 0) {
 // src is a path under audio/
 export function playFile(src) {
   stopSpeaking();
-  current = new Audio("audio/" + src);
-  current.play().catch(() => {});
-  return current;
+  const audio = current = new Audio("audio/" + src);
+  // A refused play() (not one we stopped ourselves) reports through the same error event
+  audio.play().catch(err => { if (err.name !== "AbortError") audio.dispatchEvent(new Event("error")); });
+  return audio;
 }
 
 export function stopSpeaking() {
