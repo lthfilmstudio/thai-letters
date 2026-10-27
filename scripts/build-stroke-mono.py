@@ -22,6 +22,7 @@ WIDTH = 50      # line width, font units (Nalin picked 50 in the comparison page
 SMOOTH = 3      # comparison-page smoothing value Nalin approved
 STEP = 2.4      # resample spacing, font units (about 0.6 px on the card)
 FADE = 20
+LOOP_DEV = 0.3  # a loop head stays within this share of the circle radius (real heads <= 0.18, ึ 0.43)
 
 
 def load(module, name):
@@ -81,6 +82,9 @@ def round_loops(pts, hs):
                 continue  # not a loop head
             if full < 0:
                 full = n
+            run = [pts[idx(i)] for i in range(full + 1)]
+            if sum(abs(math.hypot(x - cx, y - cy) - rc) for x, y in run) / len(run) > LOOP_DEV * rc:
+                continue  # route goes round a bigger shape (ึ's dome), not this circle
             end = min(len(pts) - 1, full + FADE)
             for i in range(end + 1):
                 x, y = pts[idx(i)]
