@@ -35,7 +35,7 @@ def texts():
 SPOKEN = {'อำ': 'อัม', 'ตำ': 'ตัม'}
 TRIPLE = {'อา', 'เก', 'เป'}
 # แ◌ row (2026-11-03): eleven_v4 kept saying these falling, so แก…แห were remade with eleven_v3 (same Aom voice),
-# picked by pitch and checked by Nalin. Do not --force them with v4. แต shares แฏ's take (same sound).
+# picked by pitch and checked by Nalin. Do not --force them with v4. แต shares แฏ's take, แฎ shares แด's (same sounds). Bump AUDIO_REV in js/audio.js after replacing clips.
 
 
 def middle_take(path):

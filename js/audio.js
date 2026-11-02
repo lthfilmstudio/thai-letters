@@ -10,9 +10,9 @@ export function speak(c, kind = 0) {
   return playFile(src);
 }
 
-// Clips cached before 2026-11-03 were kept 4 hours without asking the server; a new query
-// string skips those copies once. Clips are now served no-cache (functions/_middleware.js).
-const AUDIO_REV = "2";
+// The lthfilmstudio.com zone makes browsers keep every clip 4 hours (Browser Cache TTL rewrites
+// any cache-control, no-cache included). After re-recording clips, bump this so they refetch.
+const AUDIO_REV = "3";
 
 // src is a path under audio/
 export function playFile(src) {

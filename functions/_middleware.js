@@ -4,13 +4,7 @@ import { verifyAccess } from './_access.js';
 async function requireAccess(context) {
   const email = await verifyAccess(context.request, context.env);
   if (!email) return new Response('需要登入', { status: 401, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
-  let res = await context.next();
-  // Pages sends clips with max-age=14400, so a re-recorded clip kept playing the old copy for
-  // hours. no-cache makes the browser check the ETag every time (a 304 when unchanged).
-  if (new URL(context.request.url).pathname.startsWith('/audio/')) {
-    res = new Response(res.body, res);
-    res.headers.set('cache-control', 'no-cache');
-  }
+  const res = await context.next();
   return withRange(context.request, res);
 }
 
