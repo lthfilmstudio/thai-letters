@@ -12,7 +12,7 @@ export function speak(c, kind = 0) {
 
 // The lthfilmstudio.com zone makes browsers keep every clip 4 hours (Browser Cache TTL rewrites
 // any cache-control, no-cache included). After re-recording clips, bump this so they refetch.
-const AUDIO_REV = "3";
+const AUDIO_REV = "4";
 
 // src is a path under audio/
 export function playFile(src) {

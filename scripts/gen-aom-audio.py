@@ -39,6 +39,9 @@ TRIPLE = {'อา', 'เก', 'เป'}
 # 2026-11-03 class (ฉ ม น, เ◌อ เ◌ือ): these long-vowel clips failed the pitch check with v4 and were remade with eleven_v3
 # (rising ˊ: tail >= 5 semitones above the lowest point; mid: tail < 3 above it). Do not --force them with v4:
 # เตือ เฎอ เฏอ เบอ เขอ เขือ เถอ เหอ เผอ เผือ เฝอ เฝือ เสอ ฉา ฉี ฉือ ฉอ ฉำ ฉู โฉ เฉือ มา มือ มอ ไม เนา
+# Nalin listened (2026-11-03) and flagged short low-class syllables that did not rise (high tone ~) or were misread;
+# remade with eleven_v3 and picked by pitch (tail >= 6 semitones above the lowest point): มิ มุ โมะ เมอะ เมือะ เนือะ, and นอ (mid).
+# นึ = first of three takes ("นึ นึ นึ", eleven_v4). มึ = eleven_v3 reading "มึ๊" (plain มึ never rose in 18 tries).
 
 
 def middle_take(path):
