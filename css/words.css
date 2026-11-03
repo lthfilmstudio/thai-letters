@@ -4,6 +4,7 @@
 .words-hide {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin: -8px 0 20px;
 }
@@ -17,6 +18,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   cursor: pointer;
+  white-space: nowrap;
 }
 .words-hide-btn.active { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
 
