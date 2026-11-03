@@ -52,7 +52,7 @@ function card(w) {
   th.className = "word-th" + (hide === "th" ? " covered" : "");
   th.textContent = w.th;
   th.onclick = () => {
-    if (th.classList.contains("covered")) { th.classList.remove("covered"); return; }
+    if (th.classList.contains("covered")) { th.classList.remove("covered"); parts.classList.remove("covered"); return; }
     const audio = playFile("aom/" + w.th + ".mp3");
     el.classList.add("playing");
     audio.onended = audio.onerror = () => el.classList.remove("playing");
@@ -67,9 +67,9 @@ function card(w) {
   head.className = "word-head";
   head.append(th);
 
-  // 拆字：每個音節 = 子音 + 母音，點了念拼字盤那一格
+  // 拆字：每個音節 = 子音 + 母音，點了念拼字盤那一格；遮泰文時一起遮，翻開泰文才出現
   const parts = document.createElement("div");
-  parts.className = "word-parts";
+  parts.className = "word-parts" + (hide === "th" ? " covered" : "");
   w.syllables.forEach(s => {
     const b = BOARD.get(s);
     const chip = document.createElement("button");

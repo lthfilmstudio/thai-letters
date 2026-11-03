@@ -55,6 +55,7 @@
 .word-zh { font-size: 17px; color: var(--text-dim); align-self: flex-start; }
 
 /* 遮住：保留位置，點一下翻開 */
+.word-parts.covered { display: none; }
 .word-th.covered, .word-zh.covered {
   color: transparent;
   background: var(--card-flipped);
