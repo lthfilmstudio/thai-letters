@@ -36,6 +36,9 @@ SPOKEN = {'อำ': 'อัม', 'ตำ': 'ตัม'}
 TRIPLE = {'อา', 'เก', 'เป'}
 # แ◌ row (2026-11-03): eleven_v4 kept saying these falling, so แก…แห were remade with eleven_v3 (same Aom voice),
 # picked by pitch and checked by Nalin. Do not --force them with v4. แต shares แฏ's take, แฎ shares แด's (same sounds). Bump AUDIO_REV in js/audio.js after replacing clips.
+# 2026-11-03 class (ฉ ม น, เ◌อ เ◌ือ): these long-vowel clips failed the pitch check with v4 and were remade with eleven_v3
+# (rising ˊ: tail >= 5 semitones above the lowest point; mid: tail < 3 above it). Do not --force them with v4:
+# เตือ เฎอ เฏอ เบอ เขอ เขือ เถอ เหอ เผอ เผือ เฝอ เฝือ เสอ ฉา ฉี ฉือ ฉอ ฉำ ฉู โฉ เฉือ มา มือ มอ ไม เนา
 
 
 def middle_take(path):
