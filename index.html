@@ -73,6 +73,7 @@
           <button class="words-hide-btn quick-btn" data-quick="row">這排照順序</button>
           <button class="words-hide-btn quick-btn" data-quick="row-shuffle">這排打亂</button>
           <button class="words-hide-btn quick-btn" data-quick="mix">混合 12 題</button>
+          <button class="words-hide-btn quick-btn" data-quick="stuck" hidden>上次卡住的</button>
         </div>
       </div>
       <div class="combo-grid" id="combo-grid"></div>
@@ -83,14 +84,22 @@
 
   <!-- ============ WORDS VIEW ============ -->
   <div class="view" id="view-words">
-    <div class="combo-consonants" id="words-consonants"></div>
-    <div class="words-hide">
-      <span class="words-hide-label">遮住</span>
-      <button class="words-hide-btn active" data-hide="none">不遮</button>
-      <button class="words-hide-btn" data-hide="zh">中文</button>
-      <button class="words-hide-btn" data-hide="th">泰文</button>
+    <div id="words-board">
+      <div class="combo-consonants" id="words-consonants"></div>
+      <div class="words-hide">
+        <span class="words-hide-label">遮住</span>
+        <button class="words-hide-btn active" data-hide="none">不遮</button>
+        <button class="words-hide-btn" data-hide="zh">中文</button>
+        <button class="words-hide-btn" data-hide="th">泰文</button>
+      </div>
+      <div class="words-hide">
+        <span class="words-hide-label">看字快讀</span>
+        <button class="words-hide-btn wquick-btn" data-quick="words">單字 12 題</button>
+        <button class="words-hide-btn wquick-btn" data-quick="words-stuck" hidden>上次卡住的</button>
+      </div>
+      <div class="words-list" id="words-list"></div>
     </div>
-    <div class="words-list" id="words-list"></div>
+    <div class="quick" id="quick-words" hidden></div>
   </div>
 
 </div>

@@ -1,6 +1,6 @@
 import { COMBO_CONSONANTS, comboRow } from "../data/combos.js";
 import { playFile } from "./audio.js";
-import { startQuick, stopQuick } from "./quick.js";
+import { startQuick, stopQuick, stuckCount } from "./quick.js";
 
 let current = COMBO_CONSONANTS[0].c;
 let hideRoma = false;
@@ -24,6 +24,11 @@ export function renderCombo() {
   });
   document.querySelectorAll(".quick-btn").forEach(btn => {
     btn.onclick = () => startQuick(btn.dataset.quick, current, renderCombo);
+    if (btn.dataset.quick === "stuck") {
+      const n = stuckCount("combo");
+      btn.hidden = !n;
+      btn.textContent = `上次卡住的（${n}）`;
+    }
   });
 
   const word = document.getElementById("combo-word");

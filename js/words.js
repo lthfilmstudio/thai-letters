@@ -1,12 +1,15 @@
 import { COMBO_CONSONANTS, allCombos } from "../data/combos.js";
 import { WORDS } from "../data/words.js";
 import { playFile } from "./audio.js";
+import { startQuick, stopQuick, stuckCount } from "./quick.js";
 
 const BOARD = new Map(allCombos().map(x => [x.syl, x]));
 let current = "all";
 let hide = "none"; // none | zh | th
 
 export function renderWords() {
+  stopQuick();
+
   const picker = document.getElementById("words-consonants");
   picker.innerHTML = "";
   [{ c: "all", label: "全部" }, ...COMBO_CONSONANTS.map(({ c }) => ({ c, label: c }))]
@@ -22,6 +25,17 @@ export function renderWords() {
   document.querySelectorAll(".words-hide-btn").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.hide === hide);
     btn.onclick = () => { hide = btn.dataset.hide; renderWords(); };
+  });
+
+  const pool = WORDS.filter(w => current === "all" || w.syllables.some(s => BOARD.get(s).c === current)).length;
+  document.querySelectorAll(".wquick-btn").forEach(btn => {
+    btn.onclick = () => startQuick(btn.dataset.quick, current, renderWords);
+    if (btn.dataset.quick === "words") btn.textContent = `單字 ${Math.min(12, pool)} 題`;
+    else {
+      const n = stuckCount("word");
+      btn.hidden = !n;
+      btn.textContent = `上次卡住的（${n}）`;
+    }
   });
 
   const list = document.getElementById("words-list");
