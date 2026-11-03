@@ -42,6 +42,7 @@ TRIPLE = {'อา', 'เก', 'เป'}
 # Nalin listened (2026-11-03) and flagged short low-class syllables that did not rise (high tone ~) or were misread;
 # remade with eleven_v3 and picked by pitch (tail >= 6 semitones above the lowest point): มิ มุ โมะ เมอะ เมือะ เนือะ, and นอ (mid).
 # นึ = first of three takes ("นึ นึ นึ", eleven_v4). มึ = eleven_v3 reading "มึ๊" (plain มึ never rose in 18 tries).
+# ง row (2026-11-03): eleven_v3 retakes picked by pitch: งะ งิ งี งอ เงาะ งุ โงะ เงอะ เงือะ เงือ; งึ = eleven_v3 reading "งึ๊".
 
 
 def middle_take(path):

@@ -143,6 +143,10 @@
 | นู | 鼓起 | https://dict.longdo.com/search/%E0%B8%99%E0%B8%B9（Lexitron：swell, bulge） |
 | แนะ | 指點／建議 | 2026-11-03 課堂投影片（แนะนำ） |
 | เสือ | 老虎 | 2026-11-03 課堂投影片 |
+| งา | 芝麻／象牙 | https://dict.longdo.com/search/%E0%B8%87%E0%B8%B2（Lexitron：sesame; ivory） |
+| งู | 蛇 | 2026-11-03 課堂投影片（ง งู） |
+| งอ | 彎曲／鬧彆扭 | https://dict.longdo.com/search/%E0%B8%87%E0%B8%AD（Lexitron：bend; be sulky） |
+| เงา | 影子 | https://dict.longdo.com/search/%E0%B9%80%E0%B8%87%E0%B8%B2（Lexitron：shadow） |
 
 ## 改念整個單字的格子（2026-10-20）
 

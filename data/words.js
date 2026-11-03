@@ -69,6 +69,7 @@ export const WORDS = [
   { th: "นะ", syllables: ["นะ"], zh: "拜託啦（語尾）" },
   { th: "มะเขือ", syllables: ["มะ", "เขือ"], zh: "茄子" },
   { th: "มีเสือมา", syllables: ["มี", "เสือ", "มา"], zh: "有老虎來" },
+  { th: "งู", syllables: ["งู"], zh: "蛇" },
   { th: "อีกา", syllables: ["อี", "กา"], zh: "烏鴉" },
   { th: "ตะปู", syllables: ["ตะ", "ปู"], zh: "釘子" },
   { th: "ตาปู", syllables: ["ตา", "ปู"], zh: "釘子" },
