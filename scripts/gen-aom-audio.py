@@ -43,6 +43,9 @@ TRIPLE = {'อา', 'เก', 'เป'}
 # remade with eleven_v3 and picked by pitch (tail >= 6 semitones above the lowest point): มิ มุ โมะ เมอะ เมือะ เนือะ, and นอ (mid).
 # นึ = first of three takes ("นึ นึ นึ", eleven_v4). มึ = eleven_v3 reading "มึ๊" (plain มึ never rose in 18 tries).
 # ง row (2026-11-03): eleven_v3 retakes picked by pitch: งะ งิ งี งอ เงาะ งุ โงะ เงอะ เงือะ เงือ; งึ = eleven_v3 reading "งึ๊".
+# 2026-11-10 class (ย ว, เ◌ียะ เ◌ีย ◌ัวะ ◌ัว): eleven_v3 retakes picked by pitch (mid < 3, rising >= 5, high >= 6):
+# เวาะ มัวะ งัวะ เวือะ แยะ เวอะ นัวะ วิ วุ ยัวะ เวียะ เนียะ แวะ ยู เวอ ตัว ฎัว วู เยอ ยี เขีย เผีย ขัว เถีย สัว เหีย เฉีย ถัว เสีย;
+# eleven_v3 reading a colloquial tone mark: วะ "ว๊ะ", วึ "วึ๊", เงียะ "เงี๊ยะ", เยือะ "เยื๊อะ", ยิ "ยิ๊", เฝีย "เฝี๋ย".
 
 
 def middle_take(path):
