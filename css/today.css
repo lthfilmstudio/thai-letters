@@ -1,0 +1,69 @@
+/* ─── 今天 ─── */
+.today-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 16px 20px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.today-card .quick-note { margin: 0; text-align: center; }
+.today-status { font-size: 20px; color: var(--text); margin: 0; }
+
+.today-dots { display: flex; gap: 14px; margin-top: 6px; }
+.today-dot { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--text-mute); }
+.today-dot i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--gold-dim); }
+.today-dot.done i { background: var(--gold); border-color: var(--gold); }
+
+.today-map { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.today-tile {
+  font-family: "Sarabun", sans-serif;
+  font-size: 22px;
+  line-height: 1.5;
+  min-width: 44px;
+  padding: 2px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-mute);
+}
+/* Sarabun 的 ◌ 加上方母音會變方框，母音改用 Noto Sans Thai */
+.today-tile-v { font-family: "Noto Sans Thai", sans-serif; }
+.today-tile.today-tile-v { font-size: 20px; }
+.today-tile.lit { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
+
+.today-listen {
+  width: 72px;
+  height: 72px;
+  margin: 4px 0 10px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  cursor: pointer;
+}
+.today-listen svg { width: 26px; height: 26px; margin-left: 4px; }
+
+.today-options, .today-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.today-option, .today-side {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  cursor: pointer;
+}
+.today-option { font-family: "Sarabun", sans-serif; font-size: 52px; line-height: 1.5; padding: 6px 0; }
+.today-option:hover:enabled { border-color: var(--gold-dim); }
+.today-option:disabled { cursor: default; opacity: 0.45; }
+.today-option.right { opacity: 1; border-color: var(--gold); background: var(--gold-soft); color: var(--gold); }
+.today-option.wrong { opacity: 1; border-color: var(--danger); color: var(--danger); }
+
+.today-side { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 8px 14px; }
+.today-side-label { font-family: "Noto Sans TC", sans-serif; font-size: 14px; color: var(--text-dim); }
+.today-side-syl { font-family: "Sarabun", sans-serif; font-size: 52px; line-height: 1.5; }
+.today-side-part { font-family: "Sarabun", sans-serif; font-size: 30px; line-height: 1.5; color: var(--gold); }
+.today-side-part.today-tile-v { font-family: "Noto Sans Thai", sans-serif; }
+.today-compare-hint { text-align: center; }

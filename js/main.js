@@ -5,6 +5,7 @@ import { renderBrowse } from "./browse.js";
 import { initModal }    from "./modal.js";
 import { renderCombo }  from "./combo.js";
 import { renderWords }  from "./words.js";
+import { renderToday }  from "./today.js";
 import { stopSpeaking } from "./audio.js";
 
 const CATEGORIES = [
@@ -14,7 +15,7 @@ const CATEGORIES = [
 ];
 
 const state = {
-  mode: "browse",
+  mode: "today",
   category: "consonant",
   toneFilter: "all"
 };
@@ -33,6 +34,7 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     document.getElementById("view-" + state.mode).classList.add("active");
 
+    if (state.mode === "today") renderToday();
     if (state.mode === "browse") renderBrowse(CATEGORIES, state);
     if (state.mode === "combo") renderCombo();
     if (state.mode === "words") renderWords();
@@ -40,6 +42,7 @@ document.querySelectorAll(".mode-btn").forEach(btn => {
 });
 
 renderBrowse(CATEGORIES, state);
+renderToday();
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js");

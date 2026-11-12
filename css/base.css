@@ -197,4 +197,5 @@ header {
   .stats { width: 100%; justify-content: space-between; text-align: left; }
   .stat { text-align: left; }
   .title-block .eyebrow { display: none; }
+  .mode-btn { padding: 10px 16px; white-space: nowrap; }
 }

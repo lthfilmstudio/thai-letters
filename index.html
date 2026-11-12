@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="./css/combo.css" />
 <link rel="stylesheet" href="./css/words.css" />
 <link rel="stylesheet" href="./css/quick.css" />
+<link rel="stylesheet" href="./css/today.css" />
 </head>
 <body>
 <div class="app">
@@ -41,13 +42,19 @@
 
   <!-- Mode Switcher -->
   <div class="modes" role="tablist">
-    <button class="mode-btn active" data-mode="browse">瀏覽</button>
+    <button class="mode-btn active" data-mode="today">今天</button>
+    <button class="mode-btn" data-mode="browse">瀏覽</button>
     <button class="mode-btn" data-mode="combo">拼字盤</button>
     <button class="mode-btn" data-mode="words">單字</button>
   </div>
 
+  <!-- ============ TODAY VIEW ============ -->
+  <div class="view active" id="view-today">
+    <div class="quick" id="today"></div>
+  </div>
+
   <!-- ============ BROWSE VIEW ============ -->
-  <div class="view active" id="view-browse">
+  <div class="view" id="view-browse">
     <div class="cat-tabs" id="cat-tabs"></div>
     <div class="tone-filter" id="tone-filter">
       <button class="tone-pill active" data-tone="all">全部</button>

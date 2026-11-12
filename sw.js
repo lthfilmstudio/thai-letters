@@ -1,4 +1,4 @@
-const CACHE = "thai-letters-v57";
+const CACHE = "thai-letters-v58";
 
 const PRECACHE = [
   "./",
@@ -11,12 +11,15 @@ const PRECACHE = [
   "./css/combo.css",
   "./css/words.css",
   "./css/quick.css",
+  "./css/today.css",
   "./data/consonants.js",
   "./data/vowels.js",
   "./data/tones.js",
   "./data/combos.js",
   "./js/combo.js",
   "./js/quick.js",
+  "./js/today.js",
+  "./js/today-logic.js",
   "./data/words.js",
   "./js/words.js",
   "./js/main.js",
