@@ -173,6 +173,11 @@
   </div>
 </div>
 
+<script>
+// 改版後第一次打開，頁面是新的、程式卻還是舊快取，畫面會缺一塊；新版 service worker 一接管就自動重新載入。
+// 寫在頁面裡（頁面一律走網路），舊快取的程式不用先更新也吃得到。第一次安裝本來沒有 controller，不用重載。
+if (navigator.serviceWorker?.controller) navigator.serviceWorker.addEventListener("controllerchange", () => location.reload());
+</script>
 <script type="module" src="./js/main.js"></script>
 </body>
 </html>
