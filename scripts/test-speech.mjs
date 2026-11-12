@@ -25,6 +25,14 @@ for (const w of WORDS) {
   needed.add('aom/' + w.th + '.mp3');
 }
 assert.equal(new Set(WORDS.map(w => w.th)).size, WORDS.length, 'no duplicate words');
+const { CLASS_WORDS } = await load('data/class-words.js');
+for (const w of CLASS_WORDS) {
+  assert.equal(w.syllables.join(''), w.th, w.th + ' syllables spell the class word');
+  for (const s of w.syllables) assert.ok(combos.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
+  if (w.syllables.length > 1) needed.add('aom/' + w.th + '.mp3');
+  else assert.ok(combos.find(x => x.syl === w.th).audio, w.th + ' has its board clip');
+}
+assert.equal(new Set(CLASS_WORDS.map(w => w.th)).size, CLASS_WORDS.length, 'no duplicate class words');
 for (const dir of ['book', 'aom']) {
   const files = new Set((await readdir(new URL(`audio/${dir}/`, root))).map(f => `${dir}/${f}`));
   for (const f of needed) if (f.startsWith(dir)) assert.ok(files.has(f), 'missing audio/' + f);

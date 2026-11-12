@@ -25,6 +25,7 @@ const lookalikes = letter => LOOKALIKE.filter(p => p.includes(letter)).map(p => 
 const BOARD = new Map();   // "子音|母音" → 拼字盤那一格
 for (const c of CONSONANT_LETTERS) for (const item of comboRow(c)) BOARD.set(c + "|" + item.v, item);
 const cell = (c, v) => BOARD.get(c + "|" + v);
+const BOARD_BY_SYL = new Map([...BOARD.values()].map(item => [item.syl, item]));
 const playable = item => item.audio && !item.carrier;
 
 export const emptyState = () => ({ letters: {}, days: {}, confuse: {} });
@@ -120,18 +121,38 @@ export function applyAnswer(state, q, answer, date) {
   return correct;
 }
 
+// 每輪最後念幾個會話課的字（清心安神裡已經會講的詞）：只是讓她念出來，不記對錯
+export function pickClassWords(words, n = 2, rnd = Math.random) {
+  return shuffle(words, rnd).slice(0, n).map(word => ({
+    type: "word", word,
+    audio: word.syllables.length > 1 ? "aom/" + word.th + ".mp3" : BOARD_BY_SYL.get(word.th).audio,
+    roma: word.syllables.map(s => BOARD_BY_SYL.get(s).roma).join(" ")
+  }));
+}
+
 export function finishRound(state, date) {
   state.days[date] = (state.days[date] || 0) + 1;
 }
 
-// 到 date 為止最近 n 天，每天有沒有做完一輪（舊的在前）
-export function lastDays(state, date, n = 7) {
+// 連續天數，算法照清心安神 today.js 的 streakDays()：今天還沒來不算斷，從昨天起算。
+// came 是「有來」的日期集合（這裡做完一輪的日子＋雲端讀回來的）。
+export function streakDays(came, date) {
+  const d = new Date(date + "T12:00:00");
+  const key = () => d.toLocaleDateString("sv");
+  if (!came.has(key())) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (came.has(key())) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+// 到 date 為止最近 n 天，每天有沒有來（舊的在前）；came 有給就把別台裝置來過的日子也算進去
+export function lastDays(state, date, n = 7, came) {
   const out = [];
   const d = new Date(date + "T12:00:00");
   d.setDate(d.getDate() - (n - 1));
   for (let i = 0; i < n; i++) {
     const key = d.toLocaleDateString("sv");
-    out.push({ date: key, done: !!state.days[key] });
+    out.push({ date: key, done: !!state.days[key] || !!came?.has(key) });
     d.setDate(d.getDate() + 1);
   }
   return out;

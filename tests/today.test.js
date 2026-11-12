@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   ROUND_SIZE, LETTERS, LOOKALIKE, emptyState, buildRound, applyAnswer, finishRound,
-  isLit, litCount, lastDays
+  isLit, litCount, lastDays, streakDays, pickClassWords
 } from '../js/today-logic.js';
 
 // deterministic rng so a failure reproduces
@@ -108,4 +108,35 @@ test('lastDays lists seven days ending today', () => {
   assert.deepEqual(days.map(d => d.date), ['2026-11-07', '2026-11-08', '2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13']);
   assert.deepEqual(days.map(d => d.done), [false, false, false, false, true, false, true]);
   assert.equal(s.days['2026-11-13'], 2);
+});
+
+test('streak counts back from today, or from yesterday when today is not done yet', () => {
+  const came = new Set(['2026-11-10', '2026-11-11', '2026-11-12', '2026-11-08']);
+  assert.equal(streakDays(came, '2026-11-13'), 3, 'today not done yet does not break it');
+  assert.equal(streakDays(new Set([...came, '2026-11-13']), '2026-11-13'), 4);
+  assert.equal(streakDays(came, '2026-11-14'), 0, 'a whole missed day breaks it');
+  assert.equal(streakDays(new Set(['2026-10-31', '2026-11-01']), '2026-11-01'), 2, 'across a month boundary');
+});
+
+test('lastDays also lights days another device came', () => {
+  const days = lastDays(emptyState(), '2026-11-13', 7, new Set(['2026-11-12']));
+  assert.deepEqual(days.map(d => d.done), [false, false, false, false, false, true, false]);
+});
+
+test('class words: two per round, single syllables use the board clip, the rest their own', () => {
+  const words = [
+    { th: 'ดี', syllables: ['ดี'], zh: '好' },
+    { th: 'ใจดี', syllables: ['ใจ', 'ดี'], zh: '心地好' },
+    { th: 'มือถือ', syllables: ['มือ', 'ถือ'], zh: '手機' }
+  ];
+  for (let seed = 1; seed <= 20; seed++) {
+    const picked = pickClassWords(words, 2, rng(seed));
+    assert.equal(picked.length, 2);
+    assert.notEqual(picked[0].word, picked[1].word);
+    for (const q of picked) {
+      assert.equal(q.type, 'word');
+      assert.equal(q.audio, 'aom/' + q.word.th + '.mp3');
+    }
+  }
+  assert.equal(pickClassWords([words[1]], 2, rng(1))[0].roma, 'jai ḍī');
 });

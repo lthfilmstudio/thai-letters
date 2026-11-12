@@ -67,3 +67,6 @@
 .today-side-part { font-family: "Sarabun", sans-serif; font-size: 30px; line-height: 1.5; color: var(--gold); }
 .today-side-part.today-tile-v { font-family: "Noto Sans Thai", sans-serif; }
 .today-compare-hint { text-align: center; }
+.today-streak { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
+.today-streak-num { font-size: 17px; color: var(--gold); }
+.today-class { margin-top: 14px; }
