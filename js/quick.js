@@ -4,7 +4,7 @@
 // 單字分頁也能快讀：只看整個單字，聽答案後才顯示拼音與中文。
 // 跨日續練：卡住的音節／單字記在這台裝置（localStorage），下次可以先練「上次卡住的」；
 // 要隔天以後答「直接念出」才從清單拿掉，當天答對不算記住。
-import { COMBO_CONSONANTS, COMBO_VOWELS, comboRow, allCombos } from "../data/combos.js";
+import { COMBO_CONSONANTS, COMBO_VOWELS, comboRow, allCombos, allBoard, wordAudio } from "../data/combos.js";
 import { WORDS } from "../data/words.js";
 import { playFile, stopSpeaking } from "./audio.js";
 
@@ -18,8 +18,8 @@ const playable = x => x.audio && !x.carrier;
 
 let panel, host, back, title, items, index, counts, stuck, revealed, failed, playing;
 const HOSTS = { combo: ["quick", "combo-board", "回拼字盤"], word: ["quick-words", "words-board", "回單字"] };
-const BOARD = new Map(allCombos().map(x => [x.syl, x]));
-const wordItem = w => ({ syl: w.th, audio: "aom/" + w.th + ".mp3", word: w });
+const BOARD = new Map(allBoard().map(x => [x.syl, x]));
+const wordItem = w => ({ syl: w.th, audio: wordAudio(w), word: w });
 
 const STORE = "thai-letters-stuck-v1";
 const today = () => new Date().toLocaleDateString("sv");   // 本機日期 YYYY-MM-DD

@@ -1,9 +1,9 @@
-import { COMBO_CONSONANTS, allCombos } from "../data/combos.js";
+import { COMBO_CONSONANTS, allBoard, wordAudio } from "../data/combos.js";
 import { WORDS } from "../data/words.js";
 import { playFile } from "./audio.js";
 import { startQuick, stopQuick, stuckCount } from "./quick.js";
 
-const BOARD = new Map(allCombos().map(x => [x.syl, x]));
+const BOARD = new Map(allBoard().map(x => [x.syl, x]));
 let current = "all";
 let hide = "none"; // none | zh | th
 
@@ -53,7 +53,7 @@ function card(w) {
   th.textContent = w.th;
   th.onclick = () => {
     if (th.classList.contains("covered")) { th.classList.remove("covered"); parts.classList.remove("covered"); return; }
-    const audio = playFile("aom/" + w.th + ".mp3");
+    const audio = playFile(wordAudio(w));
     el.classList.add("playing");
     audio.onended = audio.onerror = () => el.classList.remove("playing");
   };

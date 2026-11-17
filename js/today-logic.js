@@ -2,7 +2,7 @@
 // 紀錄記在字母上（24 子音＋28 母音），不記在拼字盤 672 格上：
 // 每個字母存「答對過的日期」與「最近一次認錯的日期」，在不同天答對兩次就算亮；認錯就熄掉重來。
 // 出題：認錯過的字母先出，再來是還沒亮的，最後混幾個已經亮的；每題的子音都不一樣。
-import { COMBO_CONSONANTS, COMBO_VOWELS, comboRow } from "../data/combos.js";
+import { COMBO_CONSONANTS, COMBO_VOWELS, comboRow, allTonedCombos } from "../data/combos.js";
 
 export const ROUND_SIZE = 12;
 const MIX_LIT = 3;          // 每輪混進幾個已經亮的字母
@@ -25,7 +25,7 @@ const lookalikes = letter => LOOKALIKE.filter(p => p.includes(letter)).map(p => 
 const BOARD = new Map();   // "子音|母音" → 拼字盤那一格
 for (const c of CONSONANT_LETTERS) for (const item of comboRow(c)) BOARD.set(c + "|" + item.v, item);
 const cell = (c, v) => BOARD.get(c + "|" + v);
-const BOARD_BY_SYL = new Map([...BOARD.values()].map(item => [item.syl, item]));
+const BOARD_BY_SYL = new Map([...BOARD.values(), ...allTonedCombos()].map(item => [item.syl, item]));
 const playable = item => item.audio && !item.carrier;
 
 export const emptyState = () => ({ letters: {}, days: {}, confuse: {} });

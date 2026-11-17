@@ -24,7 +24,7 @@ def texts():
                 seen.append(t)
     combos = subprocess.run(['node', '--input-type=module', '-e',
                              'const m = await import("./data/combos.js"); const w = await import("./data/words.js");'
-                             'console.log(JSON.stringify([...m.allCombos().filter(x => x.audio).map(x => x.audio.slice(4, -4)), ...w.WORDS.map(x => x.th)]))'],
+                             'console.log(JSON.stringify([...m.allCombos().filter(x => x.audio).map(x => x.audio.slice(4, -4)), ...w.WORDS.map(m.wordAudio).filter(a => a.startsWith("aom/")).map(a => a.slice(4, -4))]))'],
                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
     seen += [t for t in json.loads(combos) if t not in seen]
     return seen

@@ -227,3 +227,59 @@ export function comboRow(c) {
 export function allCombos() {
   return COMBO_CONSONANTS.flatMap(({ c }) => comboRow(c));
 }
+
+// 聲調（2026-11-17 課）：課本 Lesson 1–5 拼音練習練過的中字音 × 母音，加四種聲調符號。
+// 音檔是課本 CD 念的 audio/book/tone/<音節>.mp3（scripts/cut-book-tones.py 切，不進 git）。
+// 記號照老師與課本：◌่ 一聲 ˇ、◌้ 二聲 ˋ、◌๊ 三聲 ~、◌๋ 四聲 ˊ（不加符號＝平聲，就是上面的拼字盤）。
+export const TONE_MARKS = [
+  { m: "่", name: "ไม้เอก", label: "一聲", sign: "ˇ" },
+  { m: "้", name: "ไม้โท", label: "二聲", sign: "ˋ" },
+  { m: "๊", name: "ไม้ตรี", label: "三聲", sign: "~" },
+  { m: "๋", name: "ไม้จัตวา", label: "四聲", sign: "ˊ" }
+];
+export const TONE_CONSONANTS = ["ก", "จ", "ต", "ป", "อ"];
+export const TONE_VOWELS = ["◌า", "◌ี", "◌อ", "ไ◌", "เ◌า", "◌ำ"];
+
+// 聲調符號寫在子音（和它上下的母音）後面：ไก่ กี่ เก้า ก่ำ ก่อ
+export function toned(c, v, m) {
+  const syl = v.replace("◌", c);
+  let i = syl.indexOf(c) + 1;
+  while (i < syl.length && /[ัิ-ฺ]/.test(syl[i])) i++;
+  return syl.slice(0, i) + m + syl.slice(i);
+}
+
+// 加了聲調符號、本身就是常用單字的音節（2026-11-17 課堂投影片）
+const TONED_WORDS = {
+  "ไก่": "雞", "เต่า": "烏龜", "เก่า": "舊的", "เก้า": "九", "ไต่": "爬",
+  "เจ้า": "神／語氣助詞（北部）", "จ้า": "語氣助詞", "จ๋า": "溫柔可愛的回應",
+  "ตี่": "小眼睛", "ตี๋": "弟弟", "กี่": "幾", "เป่า": "吹", "เป้า": "靶子",
+  "ป่า": "森林", "ป้า": "阿姨", "ป๊า": "爸", "ป๋า": "爸", "ปี่": "笛子", "ปี๋": "超級…（加強語氣）",
+  "ต่ำ": "低", "ไอ้": "阿…／…傢伙", "อ้ำ": "把食物含在嘴裡", "อ้า": "張開",
+  "อี๋": "噁！", "อ๋อ": "哦／喔！", "จ่อ": "湊近", "ก่อ": "生火／造成／引起", "ต่อ": "接著／繼續"
+};
+
+export function tonedRow(c, m) {
+  if (!TONE_CONSONANTS.includes(c)) return [];
+  const con = COMBO_CONSONANTS.find(x => x.c === c);
+  const mark = TONE_MARKS.find(x => x.m === m);
+  return TONE_VOWELS.map(v => {
+    const syl = toned(c, v, m);
+    const roma = con.roma + COMBO_VOWELS.find(x => x.v === v).roma + mark.sign;
+    return { syl, c, v, mark: m, roma, audio: "book/tone/" + syl + ".mp3", zh: TONED_WORDS[syl] || "" };
+  });
+}
+
+export function allTonedCombos() {
+  return TONE_CONSONANTS.flatMap(c => TONE_MARKS.flatMap(({ m }) => tonedRow(c, m)));
+}
+
+// 拼字盤上所有音節（不加符號＋加聲調符號），單字拆音節用
+export function allBoard() {
+  return [...allCombos(), ...allTonedCombos()];
+}
+
+// 單字的整詞音檔：加聲調的單音節字用課本那一格，其他用 Aom 念的整詞
+export function wordAudio(w) {
+  const toned = w.syllables.length === 1 && allTonedCombos().find(x => x.syl === w.th);
+  return toned ? toned.audio : "aom/" + w.th + ".mp3";
+}

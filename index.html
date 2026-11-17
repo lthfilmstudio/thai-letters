@@ -83,8 +83,31 @@
           <button class="words-hide-btn quick-btn" data-quick="stuck" hidden>上次卡住的</button>
         </div>
       </div>
+      <div class="words-hide combo-tones" id="combo-tones"></div>
       <div class="combo-grid" id="combo-grid"></div>
       <div class="combo-word" id="combo-word"></div>
+      <details class="tone-guide">
+        <summary>聲調怎麼看</summary>
+        <p>泰文有 5 個聲調、4 個符號，符號寫在子音右上方。點例字聽課本念的。</p>
+        <table class="tone-table">
+          <tr><th>老師說</th><th>符號</th><th>名稱</th><th>像中文</th><th>例字</th></tr>
+          <tr><td>平聲</td><td>不加</td><td>—</td><td>一聲</td><td><button class="tone-ex" data-audio="aom/กา.mp3">กา gā</button></td></tr>
+          <tr><td>一聲</td><td class="tone-mark">◌่</td><td>ไม้เอก</td><td>三聲 ˇ</td><td><button class="tone-ex" data-audio="book/tone/ก่า.mp3">ก่า gāˇ</button></td></tr>
+          <tr><td>二聲</td><td class="tone-mark">◌้</td><td>ไม้โท</td><td>四聲 ˋ</td><td><button class="tone-ex" data-audio="book/tone/ก้า.mp3">ก้า gāˋ</button></td></tr>
+          <tr><td>三聲</td><td class="tone-mark">◌๊</td><td>ไม้ตรี</td><td>輕聲 ~</td><td><button class="tone-ex" data-audio="book/tone/ก๊า.mp3">ก๊า gā~</button></td></tr>
+          <tr><td>四聲</td><td class="tone-mark">◌๋</td><td>ไม้จัตวา</td><td>二聲 ˊ</td><td><button class="tone-ex" data-audio="book/tone/ก๋า.mp3">ก๋า gāˊ</button></td></tr>
+        </table>
+        <p>同一個符號，配不同類的子音念出來不一樣（老師的規則表）：</p>
+        <table class="tone-table">
+          <tr><th></th><th>平聲</th><th>一聲</th><th>二聲</th><th>三聲</th><th>四聲</th></tr>
+          <tr><th>中字音＋長母音</th><td>กา</td><td>ก่า</td><td>ก้า</td><td>ก๊า</td><td>ก๋า</td></tr>
+          <tr><th>中字音＋短母音</th><td></td><td>กะ</td><td></td><td></td><td></td></tr>
+          <tr><th>高字音＋長母音</th><td></td><td>ข่า</td><td>ข้า</td><td></td><td>ขา</td></tr>
+          <tr><th>高字音＋短母音</th><td></td><td>ขะ</td><td></td><td></td><td></td></tr>
+          <tr><th>低字音＋長母音</th><td>มา</td><td></td><td>ม่า</td><td>ม้า</td><td></td></tr>
+          <tr><th>低字音＋短母音</th><td></td><td></td><td></td><td>มะ</td><td></td></tr>
+        </table>
+      </details>
     </div>
     <div class="quick" id="quick" hidden></div>
   </div>

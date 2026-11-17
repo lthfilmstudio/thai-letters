@@ -91,3 +91,44 @@
 .combo-tools { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: -8px; }
 .combo-tools .words-hide { margin: 0 0 16px; flex-wrap: wrap; }
 .combo-grid.hide-roma .combo-roma { visibility: hidden; }
+
+/* 聲調（2026-11-17） */
+.combo-tones { margin: -4px 0 16px; flex-wrap: wrap; align-items: center; }
+/* Sarabun 的 ◌ 加聲調符號會變方框，符號改用 Noto Sans Thai */
+.words-hide-btn.tone-btn, .tone-table td.tone-mark { font-family: "Noto Sans Thai", "Noto Sans TC", sans-serif; }
+.tone-btn { min-width: 44px; }
+.tone-btn:disabled { opacity: 0.35; cursor: default; }
+.tone-hint { font-size: 13px; color: var(--text-dim); margin-left: 8px; }
+
+.tone-guide {
+  margin-top: 24px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 12px 16px;
+}
+.tone-guide summary { cursor: pointer; color: var(--gold); font-size: 16px; }
+.tone-guide p { color: var(--text-dim); font-size: 14px; margin: 12px 0 8px; }
+.tone-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tone-table th, .tone-table td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: center;
+  color: var(--text);
+}
+.tone-table th { color: var(--text-dim); font-weight: 400; }
+.tone-table td { font-family: "Sarabun", "Noto Sans TC", sans-serif; font-size: 18px; }
+.tone-ex {
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  border-radius: 6px;
+  color: var(--gold);
+  font-family: "Sarabun", "JetBrains Mono", sans-serif;
+  font-size: 18px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .tone-table th, .tone-table td { padding: 4px; font-size: 12px; }
+  .tone-table td { font-size: 15px; }
+}

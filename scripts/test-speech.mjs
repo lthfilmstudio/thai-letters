@@ -12,30 +12,35 @@ for (const { c } of items) {
   for (const src of SPEECH[c]) { assert.match(src, /^(book|aom)\/[฀-๿_]+\.mp3$/, c + ' audio path'); needed.add(src); }
 }
 assert.equal(Object.keys(SPEECH).length, items.length, 'no audio for unknown items');
-const { allCombos, COMBO_WORDS } = await load('data/combos.js');
+const { allCombos, COMBO_WORDS, allTonedCombos, allBoard, wordAudio } = await load('data/combos.js');
 const combos = allCombos();
 assert.equal(new Set(combos.map(x => x.syl)).size, 672, '24 consonants x 28 vowels, all distinct');
 for (const { syl, audio } of combos) { assert.ok(!syl.includes('◌'), syl + ' is fully built'); if (audio) needed.add(audio); }
 assert.deepEqual(combos.filter(x => !x.audio).map(x => x.syl), ['โขะ', 'หะ', 'หี', 'โหะ'], 'only these combos are muted');
 for (const w of Object.keys(COMBO_WORDS)) assert.ok(combos.some(x => x.syl === w), w + ' is on the board');
+// 2026-11-17 聲調：ก จ ต ป อ × 6 個母音 × 4 個符號，音檔是課本 CD
+const toned = allTonedCombos();
+assert.equal(new Set(toned.map(x => x.syl)).size, 120, '5 consonants x 6 vowels x 4 tone marks, all distinct');
+for (const { syl, audio } of toned) { assert.equal(audio, 'book/tone/' + syl + '.mp3'); needed.add(audio); }
+const board = allBoard();
 const { WORDS } = await load('data/words.js');
 for (const w of WORDS) {
   assert.equal(w.syllables.join(''), w.th, w.th + ' syllables spell the word');
-  for (const s of w.syllables) assert.ok(combos.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
-  needed.add('aom/' + w.th + '.mp3');
+  for (const s of w.syllables) assert.ok(board.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
+  needed.add(wordAudio(w));
 }
 assert.equal(new Set(WORDS.map(w => w.th)).size, WORDS.length, 'no duplicate words');
 const { CLASS_WORDS } = await load('data/class-words.js');
 for (const w of CLASS_WORDS) {
   assert.equal(w.syllables.join(''), w.th, w.th + ' syllables spell the class word');
-  for (const s of w.syllables) assert.ok(combos.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
+  for (const s of w.syllables) assert.ok(board.some(x => x.syl === s), w.th + ': ' + s + ' is on the board');
   if (w.syllables.length > 1) needed.add('aom/' + w.th + '.mp3');
-  else assert.ok(combos.find(x => x.syl === w.th).audio, w.th + ' has its board clip');
+  else assert.ok(board.find(x => x.syl === w.th).audio, w.th + ' has its board clip');
 }
 assert.equal(new Set(CLASS_WORDS.map(w => w.th)).size, CLASS_WORDS.length, 'no duplicate class words');
-for (const dir of ['book', 'aom']) {
-  const files = new Set((await readdir(new URL(`audio/${dir}/`, root))).map(f => `${dir}/${f}`));
-  for (const f of needed) if (f.startsWith(dir)) assert.ok(files.has(f), 'missing audio/' + f);
+for (const dir of ['book', 'book/tone', 'aom']) {
+  const files = new Set((await readdir(new URL(`audio/${dir}/`, root), { withFileTypes: true })).filter(f => f.isFile()).map(f => `${dir}/${f.name}`));
+  for (const f of needed) if (f.slice(0, f.lastIndexOf('/')) === dir) assert.ok(files.has(f), 'missing audio/' + f);
   for (const f of files) assert.ok(needed.has(f), 'unused audio/' + f);
 }
-console.log(`PASS: ${items.length} entries + ${combos.length} combos; ${needed.size} clips present (book + Aom), none unused.`);
+console.log(`PASS: ${items.length} entries + ${combos.length} combos + ${toned.length} toned; ${needed.size} clips present (book + Aom), none unused.`);

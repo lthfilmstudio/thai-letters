@@ -1,9 +1,10 @@
-import { COMBO_CONSONANTS, comboRow } from "../data/combos.js";
+import { COMBO_CONSONANTS, comboRow, TONE_MARKS, TONE_CONSONANTS, tonedRow } from "../data/combos.js";
 import { playFile } from "./audio.js";
 import { startQuick, stopQuick, stuckCount } from "./quick.js";
 
 let current = COMBO_CONSONANTS[0].c;
 let hideRoma = false;
+let mark = "";   // "" = 不加聲調符號（原本的拼字盤）
 
 export function renderCombo() {
   stopQuick();
@@ -31,13 +32,32 @@ export function renderCombo() {
     }
   });
 
+  // 聲調符號：課本練過的中字音（ก จ ต ป อ）才能切換，其他子音維持不加
+  const toneOk = TONE_CONSONANTS.includes(current);
+  if (!toneOk) mark = "";
+  const tones = document.getElementById("combo-tones");
+  tones.innerHTML = '<span class="words-hide-label">聲調</span>';
+  [{ m: "", label: "不加" }, ...TONE_MARKS.map(t => ({ m: t.m, label: "◌" + t.m }))].forEach(({ m, label }) => {
+    const btn = document.createElement("button");
+    btn.className = "words-hide-btn tone-btn" + (m === mark ? " active" : "");
+    btn.textContent = label;
+    btn.disabled = !toneOk && m !== "";
+    btn.onclick = () => { mark = m; renderCombo(); };
+    tones.appendChild(btn);
+  });
+  const hint = document.createElement("span");
+  hint.className = "tone-hint";
+  hint.textContent = toneOk ? "" : "這個子音的聲調還沒練（課本練了 ก จ ต ป อ）";
+  tones.appendChild(hint);
+  document.querySelectorAll(".tone-ex").forEach(btn => { btn.onclick = () => playFile(btn.dataset.audio); });
+
   const word = document.getElementById("combo-word");
   word.classList.remove("show");
 
   const grid = document.getElementById("combo-grid");
   grid.classList.toggle("hide-roma", hideRoma);
   grid.innerHTML = "";
-  comboRow(current).forEach(item => {
+  (mark ? tonedRow(current, mark) : comboRow(current)).forEach(item => {
     const cell = document.createElement("button");
     cell.className = "combo-cell";
     cell.innerHTML = `<span class="combo-syl">${item.syl}</span><span class="combo-roma">${item.roma}</span>`;

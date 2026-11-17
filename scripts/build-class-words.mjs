@@ -6,14 +6,14 @@
 // 多音節的詞音檔複製成 audio/aom/<詞>.mp3；單音節直接用拼字盤那一格的音檔。找不到音檔的詞不收。
 import { readFile, writeFile, copyFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
-import { allCombos } from '../data/combos.js';
+import { allBoard } from '../data/combos.js';
 
 const src = process.argv[2];
 if (!src) { console.error('用法：node scripts/build-class-words.mjs <thai-review 的資料夾>'); process.exit(1); }
 const root = new URL('../', import.meta.url);
 const exists = p => access(p).then(() => true, () => false);
 
-const board = new Map(allCombos().map(x => [x.syl, x]));
+const board = new Map(allBoard().map(x => [x.syl, x]));
 const clean = t => (t || '').split('/')[0].replace(/[\s?!.,]/g, '');   // 男女變體取第一個，去空白標點
 
 // 把整個詞切成拼字盤上的音節；切不出來回 null
